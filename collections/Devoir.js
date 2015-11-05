@@ -1,0 +1,1 @@
+Devoir = new Mongo.Collection("devoir");

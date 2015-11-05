@@ -1,0 +1,150 @@
+<template name='semestre'>
+	<body>
+		<div class="container">
+			<div class="jumbotron">
+				<div class="row">
+					<div class="panel panel-primary filterable">
+						<div class="panel-heading">
+							<h3 class="panel-title">Semestre</h3>
+							<div class="pull-right">
+								<button class="btn btn-default btn-xs btn-filter">Filtre</button>
+							</div>
+						</div>
+						<table class="table">
+							<thead>
+								<tr class="filters">
+									<th><input type="text" class="form-control" placeholder="Nom" disabled></th>
+									<th><input type="text" class="form-control" placeholder="date Debut" disabled></th>
+									<th><input type="text" class="form-control" placeholder="Date Fin" disabled></th>
+									<th> Actions </th> 
+								</tr>
+							</thead>
+							<tbody>
+								{{#each semestre}}
+								<tr>
+									<td name="nom">{{ nom }}</td>
+									<td name="nom">{{ dateDebut }}</td>
+									<td name="nom">{{ dateFin }}</td>
+									<td>  <a class="btn btn-danger delete" href="#">Suppr</a></td>
+								</tr>
+								{{/each}}
+							</tbody>
+						</table>
+					</div>
+				</div>
+			</div>	
+		</div>
+		
+		<div class="container">
+			<div class="jumbotron">
+				<div class="row">
+					<form class="form-horizontal">
+					<fieldset>
+					<h2>Ajouter un semestre </h2>
+         
+					<!-- nom -->
+					<div class="control-group">
+						<label class="control-label">Nom du semestre</label>
+						<div class="controls">
+							<input id="nomSemestre" name="nomSemestre" type="text" placeholder="nom semestre"
+							class="input-xlarge">
+							<p class="help-block"></p>
+						</div>
+					</div>
+					
+					<!-- dateDebut -->
+					<div class="control-group">
+						<label class="control-label">date debut</label>
+						<div class="controls">
+							<input id="dateD" name="dateD" type="date" placeholder="date"
+							class="input-xlarge">
+							<p class="help-block"></p>
+						</div>
+					</div>
+					
+					<!-- dateFin -->
+					<div class="control-group">
+						<label class="control-label">date fin</label>
+						<div class="controls">
+							<input id="date" name="dateF" type="date" placeholder="date"
+							class="input-xlarge">
+							<p class="help-block"></p>
+						</div>
+					</div>
+					
+					<!-- UE 1 -->
+					<div class="control-group">
+						<label class="control-label">Nom de l'UE 1</label>
+						<div class="controls">
+							<input id="nom" name="nomUE1" type="text" placeholder="Nom de l'UE 1"
+							class="input-xlarge">
+							<p class="help-block"></p>
+						</div>
+					</div>
+					
+					<div id="nouvelle_matiere1"></div>
+					<input class="ue1" type="button" onclick="nouveauInput1()" value="Ajouter une matière à l'UE1"/>
+					
+					<!-- UE 2 -->
+					<div class="control-group">
+						<label class="control-label">Nom de l'UE 2</label>
+						<div class="controls">
+							<input id="nom" name="nomUE2" type="text" placeholder="Nom de l'UE 2"
+							class="input-xlarge">
+							<p class="help-block"></p>
+						</div>
+					</div>
+
+					<div id="nouvelle_matiere2"></div>
+					<input class="ue2" type="button" onclick="nouveauInput2()" value="Ajouter une matière à l'UE2"/>
+					
+					<!-- UE 3 -->
+					<div class="control-group">
+						<label class="control-label">Nom de l'UE 3</label>
+						<div class="controls">
+							<input id="nom" name="nomUE3" type="text" placeholder="Nom de l'UE 3"
+							class="input-xlarge">
+							<p class="help-block"></p>
+						</div>
+					</div>
+					
+					<div id="nouvelle_matiere3"></div>
+					<input class="ue3" type="button" onclick="nouveauInput3()" value="Ajouter une matière à l'UE3"/><br />
+					
+					<input class="add" type="submit" value="Valider"  />
+					</fieldset>
+					</form>
+				</div>
+			</div>
+		</div>
+		
+		<script type="text/javascript">
+		var i = 0;
+		var j =0;
+		var k = 0;
+		var contenu1 = "";
+		var contenu2 = "";
+		var contenu3 = "";
+			 
+		function nouveauInput1(){
+			contenu1 = contenu1 + "<label class=\"control-label\">Matiere "+ i + " <input id='UE1matiere"+i+"'  type='text' name='UE1matiere" + i + "' /><br />";
+			contenu1 = contenu1 + "<label class=\"control-label\">Coeff Matiere "+ i + " <input id='UE1coeff"+i+"' type='int' name='UE1coeff" + i + "' /><br />";
+			i = i + 1;
+			document.getElementById('nouvelle_matiere1').innerHTML = contenu1;
+		}
+			 
+		function nouveauInput2(){
+			contenu2 = contenu2 + "<label class=\"control-label\">Matiere "+ j + " <input id='UE2matiere"+j+"' type='text' name='UE2matiere" + j + "' /><br />";
+			contenu2 = contenu2 + "<label class=\"control-label\">Coeff Matiere "+ j + " <input id='UE2coeff"+j+"' type='int' name='UE2coeff" + j + "' /><br />";
+			j = j + 1;
+			document.getElementById('nouvelle_matiere2').innerHTML = contenu2;
+		}
+		function nouveauInput3(){
+			contenu3 = contenu3 + "<label class=\"control-label\">Matiere "+ k + " <input id='UE3matiere"+k+"' type='text' name='UE3matiere" + k + "' /><br />";
+			contenu3 = contenu3 + "<label class=\"control-label\">Coeff Matiere "+ k + " <input id='UE3matiere"+k+"' type='int' name='UE3coeff" + k + "' /><br />";
+			k = k + 1;
+			document.getElementById('nouvelle_matiere3').innerHTML = contenu3;
+		}
+</script>
+	</body>
+</template>

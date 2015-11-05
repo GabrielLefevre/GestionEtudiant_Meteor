@@ -1,0 +1,9 @@
+﻿07/10/2015
+
+	Ajout de la vue Devoir, gestion de son affichage de ses ajouts et de ses suppresions.
+	Documentaion sur la possibilité de faire des "jointures" de collection MongoDB ( pour pouvoir definir des notes aux étudiants par la suite )
+	Commencement du rapport de stage
+	
+08/10/2015
+	
+	Ajout de la vue erreur 404, création de route dynamique pour ajouter des notes aux étudiants ( pas encore totalement clair la dessus, problème de compréhension du noSQL).

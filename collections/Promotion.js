@@ -1,0 +1,1 @@
+Promotion = new Mongo.Collection("promotion");

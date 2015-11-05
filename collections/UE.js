@@ -1,0 +1,1 @@
+UE = new Mongo.Collection("ue");

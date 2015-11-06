@@ -36,7 +36,13 @@ Template.semestre.events({
 				k++;
 			}	
 		} // while 
-		
+		var matTmp = tabMatUE1.concat(tabMatUE2);
+		var matiereSemestre = matTmp.concat(tabMatUE3);
+        var matiere ={
+            semestre:nomSemestre,
+            matiere:matiereSemestre
+        }
+        Matiere.insert(matiere);
 		// On crée l'objet qui servira de patron
 		var semestre = {
 			nom: nomSemestre,

@@ -42,13 +42,51 @@ Template.etudiant.events({
     }
   }
 });
+/*
+----------------------------------------------------------
+-----------------Template carnetEtu-----------------------
+----------------------------------------------------------
+ */
+Template.carnetEtu.helpers({
+
+    getId: function() {
+       var id_etu = Etudiant.findOne({_id:this._id})._id;
+        var nb_sem="";
+        var sem=[];
+        return id_etu;
+    },
+
+	infoSemestre :function() {
+        var sem = Etudiant.findOne({_id:this._id}).semestre;
+        for (var i=0; i<sem.length;i++) {
+            var semCourant = sem[i]; // le nom du semestre
+            var ue = UE.find({semestre:semCourant}); // la liste de ses UE
+            var matiere =Matiere.findOne({semestre:semCourant}).matiere; // tableau des matieres
+            alert(semCourant + " " + matiere );
 
 
+        }
+        //return tab_html;
+    },
+
+});
+
+/*
+ ----------------------------------------------------------
+ --------------Template events carnetEtu-------------------
+ ----------------------------------------------------------
+ */
+
+/*
+ TODO-LIST
+ Faire redoubler un Etudiant
+ Mettre la couleur sur les moyennes
+ Faire passer l'étudiant au semestre suivant
+ */
 
 Template.carnetEtu.events({
     'submit form': function(e){
 		e.preventDefault();
-		
 
 		
 	}

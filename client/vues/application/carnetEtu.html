@@ -7,11 +7,11 @@
 						<div class="media-body">
 							<h4 class="media-heading">Information Etudiant</h4>
 							<ul class="informationEtu" style="list-style-type:none">
-						<li><label>Nom :</label><span> {{prenom}} {{nom}}</span></li>
-						<li><label>Groupe :</label><span> {{groupe}}</span></li>
-                        <li><label>Adresse :</label><span>{{adresse}}, {{cp}} {{ville}}</span></li>
-                        <li><label>Email :</label><span>{{mail}}</span></li>
-                    </ul>	
+                                <li><label>Nom :</label><span> {{prenom}} {{nom}}</span></li>
+                                <li><label>Groupe :</label><span> {{groupe}}</span></li>
+                                <li><label>Adresse :</label><span>{{adresse}}, {{cp}} {{ville}}</span></li>
+                                <li><label>Email :</label><span>{{mail}}</span></li>
+                             </ul>
 						</div>
 						<div class="media-right">
 							<a href="#"><img class="media-object" src="http://lorempixel.com/850/850/?random=123" width="150" height="150"></a>
@@ -19,97 +19,15 @@
 					</div> 
 				</div>
 			</div>	
-		<h1>WIP</h1>
-		</div>
-		<div class="container">
-			<div class="jumbotron">
-				<div class="row">
-					<div class="panel panel-primary filterable">
-						<div class="panel-heading">
-							<h3 class="panel-title">Etudiant</h3>
-							<p></p>
-							<a class="btn btn-info" onClick="colorTest();">Color</a>
-							<a class="btn btn-info" onClick="avisEtudes();">Avis etudes</a>
-							<div class="pull-right">
-								<button class="btn btn-default btn-xs btn-filter">Filtre</button>
-							</div>
-						</div>
-
-						<!-- Utilité ? -->
-						<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
-						<script>
-							$(document).ready(function(){
-								$("button").click(function(){
-									$("test").toggle();
-								});
-							});
-						</script>
-						<!-- A mettre dans le template !!!-->
-						<script>
-							function colorTest(){
-								var tds = document.getElementById('table').getElementsByTagName('td');
-								for(var k = 0; k < tds.length; k ++) {
-									if(tds[k].innerHTML>9)
-									{
-										tds[k].style.backgroundColor='#9bdb10';
-									}
-									else if(tds[k].innerHTML<10 && tds[k].innerHTML>7)
-									{
-										tds[k].style.backgroundColor='#ff953d';
-									}
-									else if(tds[k].innerHTML<8 && tds[k].innerHTML>0)
-									{
-										tds[k].style.backgroundColor='#ff1b1b';
-									}
-								}
-							}
-						</script>
 
 
-						<table class="table" id="table">
-							<tbody>
-							{{#each semestre}}
-							<td>
-							<td colspan="3">
-								<p></p>
-								<center><tr><b>{{ titre }}</b></tr></center>
-								<p></p>
-							</td>
-							<tr>
-								<td> Moy.Gen </td>
-								<td> {{ moyenne }} </td>
-								<td> {{ valider }} </td>
-							</tr>
-							{{#each ue}}
-							<tr>
-								<td> {{ eu }} </td>
-								<td class="note"> {{ moyenne }} </td>
-								<td> {{ valider }} </td>
-							</tr>
-							{{/each}}
-							<tr>
-								<td>Decision du jury</td>
-								<td colspan="2">{{ decision }}</td>
-							</tr>
-							{{#each ue}}
-							<tr>
-								<td colspan="3"><i> {{ eu }} </i></td>
-							</tr>
-							{{#each matiere}}
-							<tr>
-								<td> {{ nom	}} </td>
-								<td colspan="2"> {{ moyenne }} </td>
-							</tr>
-							{{/each}}
-
-							{{/each}}
-							</td>
-							{{/each}}
-							</tbody>
-						</table>
-					</div>
-				</div>
-			</div>
-		</div>
+            <div class="jumbotron">
+                <div class="row">
+                    <div class ="insert_JS">
+                        {{{infoSemestre}}}
+                    </div>
+                </div>
+            </div>
+        </div>
 	</body>
 </template>

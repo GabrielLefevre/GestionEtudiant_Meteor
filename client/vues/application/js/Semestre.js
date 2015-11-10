@@ -38,9 +38,12 @@ Template.semestre.events({
 		} // while 
 		var matTmp = tabMatUE1.concat(tabMatUE2);
 		var matiereSemestre = matTmp.concat(tabMatUE3);
+        var coeffTmp = tabCoeffUE1.concat(tabCoeffUE2);
+        var coeffMatiere = coeffTmp.concat(tabCoeffUE3);
         var matiere ={
             semestre:nomSemestre,
-            matiere:matiereSemestre
+            matiere:matiereSemestre,
+            coeff:coeffMatiere
         }
         Matiere.insert(matiere);
 		// On crée l'objet qui servira de patron
@@ -50,12 +53,25 @@ Template.semestre.events({
 			dateFin: df,
 			UE:[]
 		}
+        var coeffUE1 = 0;
+        var coeffUE2 = 0;
+        var coeffUE3 = 0;
+        for (var i =0;i<tabCoeffUE1.length;i++) {
+            coeffUE1 += tabCoeffUE1[i];
+        }
+        for (var i =0;i<tabCoeffUE2.length;i++) {
+            coeffUE2 += tabCoeffUE2[i];
+        }
+        for (var i =0;i<tabCoeffUE3.length;i++) {
+            coeffUE3 += tabCoeffUE3[i];
+        }
 		// On ajoute le modèle a la base auquel on va ajouter les UE et les matieres en parcourant chaque tableaux de matiere et ce pour chaque UE
 		Semestre.insert(semestre, function(err,res) {
 			var idSemestre = res;
 			var UE1TMP = {
 				nom:nomUE1,
 				semestre:nomSemestre,
+                coeff: coeffUE1,
 				matiere:tabMatUE1
 			}
 			UE.insert(UE1TMP, function(err, res) {
@@ -67,6 +83,7 @@ Template.semestre.events({
 			var UE2TMP = {
 				nom:nomUE2,
 				semestre:nomSemestre,
+                coeff:coeffUE2,
 				matiere:tabMatUE2
 			}
 			UE.insert(UE2TMP, function(err, res) {
@@ -78,6 +95,7 @@ Template.semestre.events({
 			var UE3TMP = {
 				nom:nomUE3,
 				semestre:nomSemestre,
+                coeff:coeffUE3,
 				matiere:tabMatUE3
 			}
 			UE.insert(UE3TMP, function(err, res) {

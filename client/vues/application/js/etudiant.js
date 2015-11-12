@@ -30,6 +30,18 @@ Template.etudiant.events({
 		};
         // Ajout de l'étudiant a sa Collection
         Etudiant.insert(etudiant);
+        var UEsem = Semestre.findOne({nom:sem}).UE;
+        var id = Etudiant.findOne({nom:nom,prenom:prenom,groupe:groupe,promotion:pro})._id;
+        alert(id);
+        for (var i =0; i<UEsem.length;i++){
+            var moy = {
+                id_etu : id,
+                UE:UEsem[i],
+                moyenne:null
+            }
+            Moyenne.insert(moy);
+        }
+
 	},
 	
 	  'click .delete': function(e) {
@@ -78,7 +90,6 @@ Template.carnetEtu.helpers({
                 else {
                     var note = Note.findOne({matiere:matiere[j],nom:etuCourant.nom,prenom:etuCourant.prenom,promo:etuCourant.promotion}).note;
                     var ueNote = Note.findOne({matiere:matiere[j],nom:etuCourant.nom,prenom:etuCourant.prenom,promo:etuCourant.promotion}).UE;
-
                     if(ueNote != ueCourant) {
                         var moyUE = sommeMoyMatiere/sommeCoeffMatiere;
                         var coeffUE = UE.findOne({nom:ueCourant}).coeff;
@@ -90,27 +101,18 @@ Template.carnetEtu.helpers({
                         sommeCoeffMatiere += parseFloat(coeff[j]);
                         sommeMoyMatiere+= (parseFloat(note)*parseFloat(coeff[j]));
                     }// if
-
                     else {
                         info+="<tr><td name=\"matiere\">"+matiere[j]+"</td><td name=\"coeff\">"+coeff[j]+"</td><td name=\"note\">"+note+"</td></tr>";
                         sommeCoeffMatiere += parseFloat(coeff[j]);
                         sommeMoyMatiere += (parseFloat(note)*parseFloat(coeff[j]));
                     }
                 } // else
-
-
-
             } // for matiere
             var endInfo ="</tbody></table></div>"
             info += endInfo;
         } // for semestre
         return info;
-    },
-    /*
-     var test = "coucou";
-     test += semCourant;
-     return "<p>ceci est un test "+test+" erere </p>"; // affiche ceci est un test coucouS1 erere
-     */
+    }
 
 });
 
@@ -128,9 +130,10 @@ Template.carnetEtu.helpers({
  */
 
 Template.carnetEtu.events({
-    'submit form': function(e){
+    'submit .add': function(e){
 		e.preventDefault();
-
+         var sem = $("input[name='semestre']").val();
+            alert(sem);
 		
 	}
 });

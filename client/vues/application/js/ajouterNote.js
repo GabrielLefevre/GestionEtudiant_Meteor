@@ -76,15 +76,6 @@ Template.note.events({
                     }
                     // On crée un objet JSON avec les données mise dans le tableau etu[]
                     var id_etu = Etudiant.findOne({nom:etu[0], prenom:etu[1],promotion:promo})._id;
-                    var note = {
-                        nom:etu[0],
-                        prenom:etu[1],
-                        promo:promo,
-                        id_etu:id_etu,
-                        UE:ue,
-                        matiere:matiere,
-                        note:etu[2]
-                    }
                     /*
                     On vérifie si l'étudiant doit avoir une note ajouté ou juste une update
                     sur sa note actuelle
@@ -95,8 +86,38 @@ Template.note.events({
                         Note.update(_id=idTmp,{$set:{note:etu[2]}});
                     }
                     else {
-                        Note.insert(note);
+                        var noteTmp = Note.findOne({nom:etu[0],prenom:etu[1],promo:promo,UE:ue,matiere:matiere});
+                        idTmp = noteTmp._id;
+                        Note.update(_id=idTmp,{$set:{note:etu[2]}});
                     }
+                    var semCourant = UE.findOne({nom:ue}).semestre;
+                    var matiere =UE.findOne({semestre:semCourant}).matiere; // tableau des matieres
+                    var coeff = Matiere.findOne({semestre:semCourant}).coeff; // tableau des coeff
+                    var sommeMoyMatiere = 0;
+                    var sommeCoeffMatiere = 0;
+                    alert(id_etu);
+                    for(var l =0;l<matiere.length;l++) {
+
+                        var noteMat = Note.findOne({id_etu:id_etu,matiere:matiere[l]}).note;
+                        alert("note : " + noteMat)
+                        if(noteMat!="non renseignée"){
+
+                            sommeCoeffMatiere += parseInt(coeff[l]);
+                            sommeMoyMatiere += parseFloat(noteMat)*parseInt(coeff[l]);
+                            alert("somme des coeff : " + sommeCoeffMatiere + " somme moy matiere : " + sommeMoyMatiere);
+                        }
+                        else {
+                            alert("pas encore de note pour "+ matiere[l]);
+                        }
+                    } // for
+                    //alert(sommeCoeffMatiere + " " + sommeCoeffMatiere);
+                    var moyenne = sommeMoyMatiere/sommeCoeffMatiere;
+                    moyenne = moyenne.toFixed(2);
+                    moyenne =moyenne+'';
+                    alert("moyenne : " + moyenne);
+                    var moyenneTmp = Moyenne.findOne({id_etu:id_etu,UE:ue});
+                    id_moy = moyenneTmp._id
+                    Moyenne.update(_id=id_moy,{moyenne:moyenne});
                 } // for i
             } // if confirm
         }

@@ -5,7 +5,7 @@ Template.inscription.events({
     'click .add': function(e) {
         e.preventDefault();
 
-        // On recupère le contenu du textarea
+        // On recupÃ¨re le contenu du textarea
         var textarea = $("textarea[id='textarea']").val();
         // On compte le nombre de ligne du textarea
             var nbr_ligne = 1;
@@ -37,22 +37,46 @@ Template.inscription.events({
                     etu[k]=data[j];
                     j++;
                 }
-                // On recherche le semestre renseigné dans la BDD et on ajoute cet étudiant a la BDD avec son semestre en cours
+                // On recherche le semestre renseignÃ© dans la BDD et on ajoute cet Ã©tudiant a la BDD avec son semestre en cours
                 var sem= Semestre.findOne({nom: etu[8]});
-                // On verifie l'existence de la promotion dans la BDD sinon on la crée
+                // On verifie l'existence de la promotion dans la BDD sinon on la crÃ©e
                 if ( Promotion.find({promotion:etu[3]}).count()>0) {
-                    Etudiant.insert({nom:etu[0],prenom:etu[1],groupe:etu[2],promotion:etu[3],mail:etu[4],adresse:etu[5],cp:etu[6],ville:etu[7],semestre:[etu[8]]});
+                    Etudiant.insert({nom:etu[0],prenom:etu[1],groupe:etu[2],promotion:etu[3],mail:etu[4],adresse:etu[5],cp:etu[6],ville:etu[7],semestre:etu[8]});
                 } // if
                 else {
                     var promo = {
                         promotion:etu[3]
                     }
                     Promotion.insert(promo);
-                    Etudiant.insert({nom:etu[0],prenom:etu[1],groupe:etu[2],promotion:etu[3],mail:etu[4],adresse:etu[5],cp:etu[6],ville:etu[7],semestre:[etu[8]]});
+                    Etudiant.insert({nom:etu[0],prenom:etu[1],groupe:etu[2],promotion:etu[3],mail:etu[4],adresse:etu[5],cp:etu[6],ville:etu[7],semestre:etu[8]});
                 } // else
+                var id = Etudiant.findOne({nom:etu[0],prenom:etu[1],groupe:etu[2],promotion:etu[3]})._id;
+                alert(id);
+                var UEsem = Semestre.findOne({nom:etu[8]}).UE;
+                for (var j =0; j<UEsem.length;j++){
+                    var moy = {
+                        id_etu : id,
+                        UE:UEsem[j],
+                        moyenne:"non renseignÃ©e"
+                    }
+                    Moyenne.insert(moy);
+                    var matiere =UE.findOne({nom:UEsem[j]}).matiere; // tableau des matieres
+                    for (var k =0;k<matiere.length;k++) {
+                        var note = {
+                            nom:etu[0],
+                            prenom:etu[1],
+                            promo:etu[3],
+                            id_etu:id,
+                            UE:UEsem[j],
+                            matiere:matiere[k],
+                            note:"non renseignÃ©e"
+                        }
+                        Note.insert(note);
+                    }
+                } //for j
 
             } // for i
-            // On crée la promotion dans sa collection
+            // On crÃ©e la promotion dans sa collection
 
         }
     }

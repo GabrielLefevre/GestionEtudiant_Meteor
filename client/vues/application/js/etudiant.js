@@ -77,44 +77,72 @@ Template.carnetEtu.helpers({
             var matiere =Matiere.findOne({semestre:semCourant}).matiere; // tableau des matieres
             var coeff = Matiere.findOne({semestre:semCourant}).coeff; // tableau des coeff
             var ueCourant =Note.findOne({matiere:matiere[0],nom:etuCourant.nom,prenom:etuCourant.prenom,promo:etuCourant.promotion}).UE;
-            var sommeMoyMatiere = 0;
-            var sommeCoeffMatiere = 0;
+
+
             var info =" <div class=\"panel panel-primary filterable\"> <div class=\"panel-heading\"> <h3 class=\"panel-title\">"+semCourant+"</h3></div>"
             info +="<table class=\"table\"> <thead> <tr class=\"filters\"> <th><input type=\"text\" class=\"form-control\" placeholder=\"Matiere\" disabled></th><th><input type=\"text\" class=\"form-control\" placeholder=\"Coeff\" disabled></th><th><input type=\"text\" class=\"form-control\" placeholder=\"Moyenne\" disabled></th> </tr> </thead> <tbody>";
             for ( var j = 0; j<=matiere.length;j++) {
                 if(j==matiere.length) {
-                    var moyUE = sommeMoyMatiere/sommeCoeffMatiere;
+                    var moyUE = Moyenne.findOne({id_etu:etuCourant._id,UE:ueCourant}).moyenne;
                     var coeffUE = UE.findOne({nom:ueCourant}).coeff;
-                    info+="<tr><td name=\"matiere\"><b>"+ueCourant+"</b></td><td name=\"coeff\"><b>"+coeffUE+"</b></td><td name=\"note\"><b>"+moyUE.toFixed(2)+"</b></td></tr>";
+                    info+="<tr><td name=\"matiere\"><b>"+ueCourant+"</b></td><td name=\"coeff\"><b>"+coeffUE+"</b></td><td name=\"note\"><b>"+moyUE+"</b></td></tr>";
                 }
                 else {
                     var note = Note.findOne({matiere:matiere[j],nom:etuCourant.nom,prenom:etuCourant.prenom,promo:etuCourant.promotion}).note;
                     var ueNote = Note.findOne({matiere:matiere[j],nom:etuCourant.nom,prenom:etuCourant.prenom,promo:etuCourant.promotion}).UE;
                     if(ueNote != ueCourant) {
-                        var moyUE = sommeMoyMatiere/sommeCoeffMatiere;
+                        var moyUE = Moyenne.findOne({id_etu:etuCourant._id,UE:ueCourant}).moyenne;
                         var coeffUE = UE.findOne({nom:ueCourant}).coeff;
-                        info+="<tr><td name=\"matiere\"><b>"+ueCourant+"</b></td><td name=\"coeff\"><b>"+coeffUE+"</b></td><td name=\"note\"><b>"+moyUE.toFixed(2)+"</b></td></tr>";
+                        info+="<tr><td name=\"matiere\"><b>"+ueCourant+"</b></td><td name=\"coeff\"><b>"+coeffUE+"</b></td><td name=\"note\"><b>"+moyUE+"</b></td></tr>";
                         ueCourant = ueNote;
-                        sommeMoyMatiere =0;
-                        sommeCoeffMatiere = 0;
                         info+="<tr><td name=\"matiere\">"+matiere[j]+"</td><td name=\"coeff\">"+coeff[j]+"</td><td name=\"note\">"+note+"</td></tr>";
-                        sommeCoeffMatiere += parseFloat(coeff[j]);
-                        sommeMoyMatiere+= (parseFloat(note)*parseFloat(coeff[j]));
                     }// if
                     else {
                         info+="<tr><td name=\"matiere\">"+matiere[j]+"</td><td name=\"coeff\">"+coeff[j]+"</td><td name=\"note\">"+note+"</td></tr>";
-                        sommeCoeffMatiere += parseFloat(coeff[j]);
-                        sommeMoyMatiere += (parseFloat(note)*parseFloat(coeff[j]));
                     }
                 } // else
             } // for matiere
+            var moySem = Moyenne.findOne({id_etu:etuCourant._id,UE:semCourant}).moyenne;
+            info += "<tr><td name=\"matiere\"><b>Moyenne générale du semestre : </b></td><td name=\"note\"><b>"+moySem+"</b></td></tr>";
             var endInfo ="</tbody></table></div>"
             info += endInfo;
         } // for semestre
         return info;
+    },
+
+    formulaire_inscription:function() {
+        var nbr_sem = Semestre.find().count();
+        var form = "<form> <div class=\"control-group\"> <label class=\"control-label\">Groupe</label> <div class=\"controls\"> <select id=\"semestre\" name=\"semestre\" class=\"input-xlarge\"> <option value=\"\" selected=\"selected\">(choisissez un groupe)</option>";
+        var sem = Etudiant.findOne({_id:this._id}).semestre;
+        for (var i = 0;i<nbr_sem;i++) {
+            for (var j = 0;j<sem.length;j++){
+                if (tmp==sem[j]){
+
+                }
+            }
+        }
+        return form;
     }
 
 });
+/*
+ <form>
+ <div class="control-group">
+ <label class="control-label">Groupe</label>
+ <div class="controls">
+ <select id="Groupe" name="groupe" class="input-xlarge">
+ <option value="" selected="selected">(choisissez un groupe)</option>
+ <option value="1A">1A</option>
+ </select>
+ </div>
+ </div>
+ </form>
+ */
+
+
+
+
+
 
 /*
  ----------------------------------------------------------
@@ -130,9 +158,9 @@ Template.carnetEtu.helpers({
  */
 
 Template.carnetEtu.events({
-    'submit .add': function(e){
+    'submit form': function(e){
 		e.preventDefault();
-         var sem = $("input[name='semestre']").val();
+
             alert(sem);
 		
 	}

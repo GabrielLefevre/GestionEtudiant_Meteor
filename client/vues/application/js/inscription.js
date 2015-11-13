@@ -27,10 +27,8 @@ Template.inscription.events({
         // On rentre les lignes du textarea dans un tableau temporaire
         if (confirm("Ajouter la promotion ?")) {
             var nbr_colonne = 9;
-            var indent="\t"; // code ASCII = 9
-            var back="\n"; // code ASCII = 13
             var j=0;
-            var data=textarea.split(/[\t,\n]+/);
+            var data=textarea.split(";");
             var etu=[];
             for (var i=0;i<nbr_ligne;i++) {
                 for (var k=0;k<nbr_colonne;k++) {
@@ -41,7 +39,7 @@ Template.inscription.events({
                 var sem= Semestre.findOne({nom: etu[8]});
                 // On verifie l'existence de la promotion dans la BDD sinon on la crée
                 if ( Promotion.find({promotion:etu[3]}).count()>0) {
-                    Etudiant.insert({nom:etu[0],prenom:etu[1],groupe:etu[2],promotion:etu[3],mail:etu[4],adresse:etu[5],cp:etu[6],ville:etu[7],semestre:etu[8]});
+                    Etudiant.insert({nom:etu[0],prenom:etu[1],groupe:etu[2],promotion:etu[3],mail:etu[4],adresse:etu[5],cp:etu[6],ville:etu[7],semestre:[etu[8]]});
                 } // if
                 else {
                     var promo = {
@@ -51,7 +49,6 @@ Template.inscription.events({
                     Etudiant.insert({nom:etu[0],prenom:etu[1],groupe:etu[2],promotion:etu[3],mail:etu[4],adresse:etu[5],cp:etu[6],ville:etu[7],semestre:etu[8]});
                 } // else
                 var id = Etudiant.findOne({nom:etu[0],prenom:etu[1],groupe:etu[2],promotion:etu[3]})._id;
-                alert(id);
                 var UEsem = Semestre.findOne({nom:etu[8]}).UE;
                 for (var j =0; j<UEsem.length;j++){
                     var moy = {
@@ -74,9 +71,13 @@ Template.inscription.events({
                         Note.insert(note);
                     }
                 } //for j
-
+                var moySem = {
+                    id_etu : id,
+                    UE:etu[8],
+                    moyenne:"non renseignée"
+                }
+                Moyenne.insert(moySem);
             } // for i
-            // On crée la promotion dans sa collection
 
         }
     }

@@ -44,7 +44,7 @@ Template.note.events({
         var indent="\t"; // code ASCII = 9
         var back="\n"; // code ASCII = 13
         var j=3;
-        var data=textarea.split(/[\t,\n]+/);
+        var data=textarea.split(";");
         var matiere = data[0];
         var promo = data[1];
         var ue = data[2];
@@ -87,37 +87,79 @@ Template.note.events({
                     }
                     else {
                         var noteTmp = Note.findOne({nom:etu[0],prenom:etu[1],promo:promo,UE:ue,matiere:matiere});
-                        idTmp = noteTmp._id;
+                        var idTmp = noteTmp._id;
                         Note.update(_id=idTmp,{$set:{note:etu[2]}});
                     }
                     var semCourant = UE.findOne({nom:ue}).semestre;
-                    var matiere =UE.findOne({semestre:semCourant}).matiere; // tableau des matieres
+                    var matiere =Matiere.findOne({semestre:semCourant}).matiere; // tableau des matieres
                     var coeff = Matiere.findOne({semestre:semCourant}).coeff; // tableau des coeff
                     var sommeMoyMatiere = 0;
                     var sommeCoeffMatiere = 0;
-                    alert(id_etu);
-                    for(var l =0;l<matiere.length;l++) {
-
-                        var noteMat = Note.findOne({id_etu:id_etu,matiere:matiere[l]}).note;
-                        alert("note : " + noteMat)
-                        if(noteMat!="non renseignée"){
-
-                            sommeCoeffMatiere += parseInt(coeff[l]);
-                            sommeMoyMatiere += parseFloat(noteMat)*parseInt(coeff[l]);
-                            alert("somme des coeff : " + sommeCoeffMatiere + " somme moy matiere : " + sommeMoyMatiere);
+                    var listeUE = Semestre.findOne({nom:semCourant}).UE;
+                    var k=0;
+                    var moyenne;
+                    var tabMoy = [];
+                    var tabCoeff = [];
+                    for(var l =0;l<=matiere.length;l++) {
+                        if(l==matiere.length) {
+                            moyenne = sommeMoyMatiere/sommeCoeffMatiere;
+                            moyenne = moyenne.toFixed(2);
+                            moyenne =moyenne+'';
+                            tabMoy[k]=moyenne;
+                            tabCoeff[k]=UE.findOne({nom:listeUE[k]}).coeff;
+                            var moyenneTmp = Moyenne.findOne({id_etu:id_etu,UE:listeUE[k]});
+                            var id_moy = moyenneTmp._id;
+                            Moyenne.update(_id=id_moy,{$set:{moyenne:moyenne}});
                         }
                         else {
-                            alert("pas encore de note pour "+ matiere[l]);
+                            var noteMat = Note.findOne({id_etu:id_etu,matiere:matiere[l]}).note;
+                            var ueNote = Note.findOne({id_etu:id_etu,matiere:matiere[l]}).UE;
+                            if(listeUE[k]!=ueNote) {
+
+                                moyenne = sommeMoyMatiere/sommeCoeffMatiere;
+                                moyenne = moyenne.toFixed(2);
+                                tabMoy[k]=moyenne;
+                                moyenne =moyenne+'';
+                                tabCoeff[k]=UE.findOne({nom:listeUE[k]}).coeff;
+                                var moyenneTmp = Moyenne.findOne({id_etu:id_etu,UE:listeUE[k]});
+                                var id_moy = moyenneTmp._id;
+                                Moyenne.update(_id=id_moy,{$set:{moyenne:moyenne}});
+                                k++;
+                                sommeMoyMatiere =0;
+                                sommeCoeffMatiere = 0;
+                                if(noteMat!="non renseignée") {
+                                    sommeCoeffMatiere += parseInt(coeff[l]);
+                                    sommeMoyMatiere += parseFloat(noteMat)*parseInt(coeff[l]);
+                                }
+                                else {
+                                    alert("pas encore de note pour "+ matiere[l]);
+                                }
+
+                            }
+
+                            else if(noteMat!="non renseignée"){
+                                sommeCoeffMatiere += parseInt(coeff[l]);
+                                sommeMoyMatiere += parseFloat(noteMat)*parseInt(coeff[l]);
+                            }
+                            else {
+                                alert("pas encore de note pour "+ matiere[l]);
+                             }
                         }
                     } // for
-                    //alert(sommeCoeffMatiere + " " + sommeCoeffMatiere);
-                    var moyenne = sommeMoyMatiere/sommeCoeffMatiere;
-                    moyenne = moyenne.toFixed(2);
-                    moyenne =moyenne+'';
-                    alert("moyenne : " + moyenne);
-                    var moyenneTmp = Moyenne.findOne({id_etu:id_etu,UE:ue});
-                    id_moy = moyenneTmp._id
-                    Moyenne.update(_id=id_moy,{moyenne:moyenne});
+                    var moySem = 0;
+                    var sommeCoeff = 0;
+                    alert(tabMoy + " "+ tabCoeff);
+                    for (var m = 0;m<3;m++) {
+                        moySem += tabMoy[m]*parseInt(tabCoeff[m]);
+                        sommeCoeff +=parseInt(tabCoeff[m]);
+                    }
+                    alert ( moySem + " "+sommeCoeff);
+                    moySem= moySem/sommeCoeff;
+                    moySem = moySem.toFixed(2);
+                    moySem =moySem+'';
+                    var semTmp = Moyenne.findOne({id_etu:id_etu,UE:semCourant});
+                    var id_Sem = semTmp._id;
+                    Moyenne.update(_id=id_Sem,{$set:{moyenne:moySem}});
                 } // for i
             } // if confirm
         }

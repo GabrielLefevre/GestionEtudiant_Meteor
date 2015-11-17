@@ -40,12 +40,12 @@ Template.note.events({
          chaque élément séparé d'une tabulation va être stocké dans un tableau data
          On récupère les éléments de la premieres ligne pour avoir l'information sur la matiere, la promotion, l'ue
         */
-        var nbr_colonne = 4;
+        var nbr_colonne = 3;
         var indent="\t"; // code ASCII = 9
         var back="\n"; // code ASCII = 13
         var j=3;
-        var data=textarea.split(";");
-        var matiere = data[0];
+        var data=textarea.split(/[;,\n]+/);
+        var mat = data[0];
         var promo = data[1];
         var ue = data[2];
         var nbr_etu_list = nbr_ligne-1;
@@ -69,27 +69,24 @@ Template.note.events({
         else if ( nbr_etu_DB >= nbr_etu_list) {
             if (confirm("Vous allez entrer  " + nbr_etu_list + " note d'étudiant pour les " + nbr_etu_DB + " étudiants inscris à ce cours dans la base de données, continuer ?")) {
                 var etu=[];
+                var cpt = 0;
+
                 for (var i=1;i<nbr_ligne;i++) {
+                    var cpt1 = cpt+1;
+                    var cpt2= cpt+2;
                     for (var k=0;k<nbr_colonne;k++) {
                         etu[k]=data[j];
                         j++;
                     }
+                    alert(etu);
+                    alert(mat + promo + ue + etu[cpt] + etu[cpt1] + etu[cpt2]);
                     // On crée un objet JSON avec les données mise dans le tableau etu[]
-                    var id_etu = Etudiant.findOne({nom:etu[0], prenom:etu[1],promotion:promo})._id;
-                    /*
-                    On vérifie si l'étudiant doit avoir une note ajouté ou juste une update
-                    sur sa note actuelle
-                     */
-                    if (etu[3]=="M") {
-                        var noteTmp = Note.findOne({nom:etu[0],prenom:etu[1],promo:promo,UE:ue,matiere:matiere});
-                        idTmp = noteTmp._id;
-                        Note.update(_id=idTmp,{$set:{note:etu[2]}});
-                    }
-                    else {
-                        var noteTmp = Note.findOne({nom:etu[0],prenom:etu[1],promo:promo,UE:ue,matiere:matiere});
-                        var idTmp = noteTmp._id;
-                        Note.update(_id=idTmp,{$set:{note:etu[2]}});
-                    }
+                    var id_etu = Etudiant.findOne({nom:etu[cpt], prenom:etu[cpt1],promotion:promo})._id;
+
+                    var noteTmp = Note.findOne({nom:etu[cpt],prenom:etu[cpt1],promo:promo,UE:ue,matiere:mat});
+                    idTmp = noteTmp._id;
+                    Note.update(_id=idTmp,{$set:{note:etu[cpt2]}});
+
                     var semCourant = UE.findOne({nom:ue}).semestre;
                     var matiere =Matiere.findOne({semestre:semCourant}).matiere; // tableau des matieres
                     var coeff = Matiere.findOne({semestre:semCourant}).coeff; // tableau des coeff
@@ -148,12 +145,10 @@ Template.note.events({
                     } // for
                     var moySem = 0;
                     var sommeCoeff = 0;
-                    alert(tabMoy + " "+ tabCoeff);
                     for (var m = 0;m<3;m++) {
                         moySem += tabMoy[m]*parseInt(tabCoeff[m]);
                         sommeCoeff +=parseInt(tabCoeff[m]);
                     }
-                    alert ( moySem + " "+sommeCoeff);
                     moySem= moySem/sommeCoeff;
                     moySem = moySem.toFixed(2);
                     moySem =moySem+'';

@@ -49,7 +49,10 @@ Template.etudiant.events({
 	// Récupération de l'id de l'étudiant courant et suppression dans la BDD
     if (confirm("supprimer l'étudiant ?")) {
       var etudiantCourant = this._id;
-      Etudiant.remove(etudiantCourant);
+        alert(etudiantCourant);
+        Moyenne.remove({id_etu:etudiantCourant});
+        Note.remove({id_etu:etudiantCourant});
+        //Etudiant.remove(etudiantCourant);
       Router.go('/etudiant')
     }
   }
@@ -108,21 +111,8 @@ Template.carnetEtu.helpers({
             info += endInfo;
         } // for semestre
         return info;
-    },
-
-    formulaire_inscription:function() {
-        var nbr_sem = Semestre.find().count();
-        var form = "<form> <div class=\"control-group\"> <label class=\"control-label\">Groupe</label> <div class=\"controls\"> <select id=\"semestre\" name=\"semestre\" class=\"input-xlarge\"> <option value=\"\" selected=\"selected\">(choisissez un groupe)</option>";
-        var sem = Etudiant.findOne({_id:this._id}).semestre;
-        for (var i = 0;i<nbr_sem;i++) {
-            for (var j = 0;j<sem.length;j++){
-                if (tmp==sem[j]){
-
-                }
-            }
-        }
-        return form;
     }
+
 
 });
 /*

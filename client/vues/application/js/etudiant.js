@@ -48,11 +48,19 @@ Template.etudiant.events({
     e.preventDefault();
 	// Récupération de l'id de l'étudiant courant et suppression dans la BDD
     if (confirm("supprimer l'étudiant ?")) {
-      var etudiantCourant = this._id;
-        alert(etudiantCourant);
-        Moyenne.remove({id_etu:etudiantCourant});
-        Note.remove({id_etu:etudiantCourant});
-        //Etudiant.remove(etudiantCourant);
+      var id_etu = this._id;
+        var etudiantCourant = Etudiant.findOne({_id:id_etu});
+        var nbr_note = Note.find({id_etu:id_etu}).count();
+        var nbr_moy = Moyenne.find({id_etu:id_etu}).count();
+        for (var i = 0;i<nbr_note;i++) {
+            var id_note = Note.findOne({id_etu:id_etu})._id;
+            Note.remove({_id:id_note});
+        }
+        for (var i = 0;i<nbr_moy;i++) {
+            var id_moy = Moyenne.findOne({id_etu:id_etu})._id;
+            Moyenne.remove({_id:id_moy});
+        }
+        Etudiant.remove({_id:id_etu});
       Router.go('/etudiant')
     }
   }

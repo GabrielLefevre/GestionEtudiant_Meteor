@@ -10,7 +10,7 @@ Template.inscription.events({
         // On compte le nombre de ligne du textarea
             var nbr_ligne = 1;
             var nbr_char_ligne = 0;
-            var nbr_char_on_ligne = 150;
+            var nbr_char_on_ligne = 180;
             for(var i = 0;i<textarea.length;i++){
                 if(textarea.charCodeAt(i) == 10){
                     nbr_ligne++;
@@ -28,15 +28,16 @@ Template.inscription.events({
         if (confirm("Ajouter la promotion ?")) {
             var nbr_colonne = 9;
             var j=0;
-            var data=textarea.split(";");
+            var data=textarea.split(/[;,\n]+/);
             var etu=[];
+
             for (var i=0;i<nbr_ligne;i++) {
                 for (var k=0;k<nbr_colonne;k++) {
                     etu[k]=data[j];
                     j++;
                 }
-                // On recherche le semestre renseigné dans la BDD et on ajoute cet étudiant a la BDD avec son semestre en cours
-                var sem= Semestre.findOne({nom: etu[8]});
+                alert("nom : " + etu[0] + " prenom : " + etu[1] + " groupe : " + etu[2] + " promo : " + etu[3] + " mail : " + etu[4]);
+                alert("adresse : " + etu[5] + " cp : " + etu[6] + " ville : " + etu[7] + " semestre : " + etu[8]);
                 // On verifie l'existence de la promotion dans la BDD sinon on la crée
                 if ( Promotion.find({promotion:etu[3]}).count()>0) {
                     Etudiant.insert({nom:etu[0],prenom:etu[1],groupe:etu[2],promotion:etu[3],mail:etu[4],adresse:etu[5],cp:etu[6],ville:etu[7],semestre:[etu[8]]});
@@ -50,27 +51,27 @@ Template.inscription.events({
                 } // else
                 var id = Etudiant.findOne({nom:etu[0],prenom:etu[1],groupe:etu[2],promotion:etu[3]})._id;
                 var UEsem = Semestre.findOne({nom:etu[8]}).UE;
-                for (var j =0; j<UEsem.length;j++){
+                for (var l =0; l<UEsem.length;l++){
                     var moy = {
                         id_etu : id,
-                        UE:UEsem[j],
+                        UE:UEsem[l],
                         moyenne:"non renseignée"
                     }
                     Moyenne.insert(moy);
-                    var matiere =UE.findOne({nom:UEsem[j]}).matiere; // tableau des matieres
-                    for (var k =0;k<matiere.length;k++) {
+                    var matiere =UE.findOne({nom:UEsem[l]}).matiere; // tableau des matieres
+                    for (var m =0;m<matiere.length;m++) {
                         var note = {
                             nom:etu[0],
                             prenom:etu[1],
                             promo:etu[3],
                             id_etu:id,
-                            UE:UEsem[j],
-                            matiere:matiere[k],
+                            UE:UEsem[l],
+                            matiere:matiere[m],
                             note:"non renseignée"
                         }
                         Note.insert(note);
                     }
-                } //for j
+                } //for l
                 var moySem = {
                     id_etu : id,
                     UE:etu[8],

@@ -82,6 +82,7 @@ Template.carnetEtu.helpers({
 	infoSemestre :function() {
         var sem = Etudiant.findOne({_id:this._id}).semestre;
         var etuCourant = Etudiant.findOne({_id:this._id});
+        var info ="";
         for (var i=0; i<sem.length;i++) {
             var semCourant = sem[i]; // le nom du semestre
             var ue = Semestre.findOne({nom:semCourant}).UE; // la liste de ses UE
@@ -90,7 +91,7 @@ Template.carnetEtu.helpers({
             var ueCourant =Note.findOne({matiere:matiere[0],nom:etuCourant.nom,prenom:etuCourant.prenom,promo:etuCourant.promotion}).UE;
 
 
-            var info =" <div class=\"panel panel-primary filterable\"> <div class=\"panel-heading\"> <h3 class=\"panel-title\">"+semCourant+"</h3></div>"
+             info +=" <div class=\"panel panel-primary filterable\"> <div class=\"panel-heading\"> <h3 class=\"panel-title\">"+semCourant+"</h3></div>"
             info +="<table class=\"table\"> <thead> <tr class=\"filters\"> <th><input type=\"text\" class=\"form-control\" placeholder=\"Matiere\" disabled></th><th><input type=\"text\" class=\"form-control\" placeholder=\"Coeff\" disabled></th><th><input type=\"text\" class=\"form-control\" placeholder=\"Moyenne\" disabled></th> </tr> </thead> <tbody>";
             for ( var j = 0; j<=matiere.length;j++) {
                 if(j==matiere.length) {
@@ -146,13 +147,6 @@ Template.carnetEtu.helpers({
  ----------------------------------------------------------
  --------------Template events carnetEtu-------------------
  ----------------------------------------------------------
- */
-
-/*
- TODO-LIST
- Faire redoubler un Etudiant
- Mettre la couleur sur les moyennes
- Faire passer l'étudiant au semestre suivant
  */
 
 Template.carnetEtu.events({

@@ -78,14 +78,12 @@ Template.note.events({
                         etu[k]=data[j];
                         j++;
                     }
-                    alert(etu);
-                    alert(mat + promo + ue + etu[cpt] + etu[cpt1] + etu[cpt2]);
-                    // On crée un objet JSON avec les données mise dans le tableau etu[]
+
                     var id_etu = Etudiant.findOne({nom:etu[cpt], prenom:etu[cpt1],promotion:promo})._id;
 
                     var noteTmp = Note.findOne({nom:etu[cpt],prenom:etu[cpt1],promo:promo,UE:ue,matiere:mat});
                     idTmp = noteTmp._id;
-                    Note.update(_id=idTmp,{$set:{note:etu[cpt2]}});
+                    Note.update(_id=idTmp,{$set:{note:parseFloat(etu[cpt2])}});
 
                     var semCourant = UE.findOne({nom:ue}).semestre;
                     var matiere =Matiere.findOne({semestre:semCourant}).matiere; // tableau des matieres
@@ -94,64 +92,68 @@ Template.note.events({
                     var sommeCoeffMatiere = 0;
                     var listeUE = Semestre.findOne({nom:semCourant}).UE;
                     var k=0;
-                    var moyenne;
+                    var moyenne=0;
                     var tabMoy = [];
                     var tabCoeff = [];
                     for(var l =0;l<=matiere.length;l++) {
                         if(l==matiere.length) {
-                            moyenne = sommeMoyMatiere/sommeCoeffMatiere;
-                            moyenne = moyenne.toFixed(2);
-                            moyenne =moyenne+'';
-                            tabMoy[k]=moyenne;
-                            tabCoeff[k]=UE.findOne({nom:listeUE[k]}).coeff;
+                            if(sommeCoeffMatiere == 0 ){
+                                moyenne = null;
+                            }
+                            else {
+                                moyenne = sommeMoyMatiere/sommeCoeffMatiere;
+                                moyenne = Math.round(moyenne*100)/100;
+                                tabMoy[k]=moyenne;
+                                tabCoeff[k]=UE.findOne({nom:listeUE[k]}).coeff;
+                            }
                             var moyenneTmp = Moyenne.findOne({id_etu:id_etu,UE:listeUE[k]});
                             var id_moy = moyenneTmp._id;
                             Moyenne.update(_id=id_moy,{$set:{moyenne:moyenne}});
+
                         }
+
                         else {
                             var noteMat = Note.findOne({id_etu:id_etu,matiere:matiere[l]}).note;
                             var ueNote = Note.findOne({id_etu:id_etu,matiere:matiere[l]}).UE;
                             if(listeUE[k]!=ueNote) {
-
-                                moyenne = sommeMoyMatiere/sommeCoeffMatiere;
-                                moyenne = moyenne.toFixed(2);
-                                tabMoy[k]=moyenne;
-                                moyenne =moyenne+'';
-                                tabCoeff[k]=UE.findOne({nom:listeUE[k]}).coeff;
+                                if(sommeCoeffMatiere == 0 ){
+                                    moyenne = null;
+                                }
+                                else {
+                                    moyenne = sommeMoyMatiere/sommeCoeffMatiere;
+                                    moyenne = Math.round(moyenne*100)/100;
+                                    tabMoy[k]=moyenne;
+                                    tabCoeff[k]=UE.findOne({nom:listeUE[k]}).coeff;
+                                }
                                 var moyenneTmp = Moyenne.findOne({id_etu:id_etu,UE:listeUE[k]});
                                 var id_moy = moyenneTmp._id;
                                 Moyenne.update(_id=id_moy,{$set:{moyenne:moyenne}});
                                 k++;
                                 sommeMoyMatiere =0;
                                 sommeCoeffMatiere = 0;
-                                if(noteMat!="non renseignée") {
-                                    sommeCoeffMatiere += parseInt(coeff[l]);
-                                    sommeMoyMatiere += parseFloat(noteMat)*parseInt(coeff[l]);
-                                }
-                                else {
-                                    alert("pas encore de note pour "+ matiere[l]);
+                                if(noteMat!=null) {
+                                    sommeCoeffMatiere += coeff[l];
+                                    sommeMoyMatiere += noteMat*coeff[l];
                                 }
 
-                            }
+                            } //
 
-                            else if(noteMat!="non renseignée"){
-                                sommeCoeffMatiere += parseInt(coeff[l]);
-                                sommeMoyMatiere += parseFloat(noteMat)*parseInt(coeff[l]);
+                            else if(noteMat!=null){
+                                sommeCoeffMatiere += coeff[l];
+                                sommeMoyMatiere += noteMat*coeff[l];
                             }
-                            else {
-                                alert("pas encore de note pour "+ matiere[l]);
-                             }
                         }
                     } // for
+
+                    alert(tabMoy+ " "+ tabCoeff);
                     var moySem = 0;
                     var sommeCoeff = 0;
-                    for (var m = 0;m<3;m++) {
-                        moySem += tabMoy[m]*parseInt(tabCoeff[m]);
-                        sommeCoeff +=parseInt(tabCoeff[m]);
+                    for (var m = 0;m<tabMoy.length;m++) {
+                            moySem += tabMoy[m]*tabCoeff[m];
+                            sommeCoeff +=parseInt(tabCoeff[m]);
                     }
                     moySem= moySem/sommeCoeff;
-                    moySem = moySem.toFixed(2);
-                    moySem =moySem+'';
+                    moySem = Math.round(moySem*100)/100;
                     var semTmp = Moyenne.findOne({id_etu:id_etu,UE:semCourant});
                     var id_Sem = semTmp._id;
                     Moyenne.update(_id=id_Sem,{$set:{moyenne:moySem}});

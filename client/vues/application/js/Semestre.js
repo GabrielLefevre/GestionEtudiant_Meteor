@@ -22,17 +22,17 @@ Template.semestre.events({
 		while(document.getElementById("UE1matiere" +i) || document.getElementById("UE2matiere" +j) || document.getElementById("UE3matiere" +k)) {
 			if(document.getElementById("UE1matiere" +i)) {
 				tabMatUE1[i]=$("input[name='UE1matiere" + i + "']").val();
-				tabCoeffUE1[i]=$("input[name='UE1coeff" + i + "']").val();
+				tabCoeffUE1[i]=parseInt($("input[name='UE1coeff" + i + "']").val());
 				i++;
 			}
 			if(document.getElementById("UE2matiere" +j)) {
 				tabMatUE2[j]=$("input[name='UE2matiere" + j + "']").val();
-				tabCoeffUE2[j]=$("input[name='UE2coeff" + j + "']").val();
+				tabCoeffUE2[j]=parseInt($("input[name='UE2coeff" + j + "']").val());
 				j++;
 			}
 			if(document.getElementById("UE3matiere" +k)) {
 				tabMatUE3[k]=$("input[name='UE3matiere" + k + "']").val();
-				tabCoeffUE3[k]=$("input[name='UE3coeff" + k + "']").val();
+				tabCoeffUE3[k]=parseInt($("input[name='UE3coeff" + k + "']").val());
 				k++;
 			}	
 		} // while 

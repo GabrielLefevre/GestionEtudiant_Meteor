@@ -36,9 +36,7 @@ Template.inscription.events({
                     etu[k]=data[j];
                     j++;
                 }
-                alert("nom : " + etu[0] + " prenom : " + etu[1] + " groupe : " + etu[2] + " promo : " + etu[3] + " mail : " + etu[4]);
-                alert("adresse : " + etu[5] + " cp : " + etu[6] + " ville : " + etu[7] + " semestre : " + etu[8]);
-                // On verifie l'existence de la promotion dans la BDD sinon on la crée
+               // On verifie l'existence de la promotion dans la BDD sinon on la crée
                 if ( Promotion.find({promotion:etu[3]}).count()>0) {
                     Etudiant.insert({nom:etu[0],prenom:etu[1],groupe:etu[2],promotion:etu[3],mail:etu[4],adresse:etu[5],cp:etu[6],ville:etu[7],semestre:[etu[8]]});
                 } // if
@@ -55,7 +53,7 @@ Template.inscription.events({
                     var moy = {
                         id_etu : id,
                         UE:UEsem[l],
-                        moyenne:"non renseignée"
+                        moyenne:null
                     }
                     Moyenne.insert(moy);
                     var matiere =UE.findOne({nom:UEsem[l]}).matiere; // tableau des matieres
@@ -67,7 +65,7 @@ Template.inscription.events({
                             id_etu:id,
                             UE:UEsem[l],
                             matiere:matiere[m],
-                            note:"non renseignée"
+                            note:null
                         }
                         Note.insert(note);
                     }
@@ -75,7 +73,7 @@ Template.inscription.events({
                 var moySem = {
                     id_etu : id,
                     UE:etu[8],
-                    moyenne:"non renseignée"
+                    moyenne:null
                 }
                 Moyenne.insert(moySem);
             } // for i
@@ -84,92 +82,3 @@ Template.inscription.events({
     }
 });
 
-/*
- ----------------------------------------------------------
- --------------Template events carnetPromo-----------------
- ----------------------------------------------------------
- */
-
-/*
- TODO-LIST
- Faire redoubler un Etudiant
- Faire passer l'étudiant au semestre suivant
- */
-
-Template.carnetPromo.events({
-    'click .add': function(e){
-        e.preventDefault();
-        // On recupère le contenu du textarea
-        var textarea = $("textarea[id='textarea']").val();
-        // On compte le nombre de ligne du textarea
-        var nbr_ligne = 1;
-        var nbr_char_ligne = 0;
-        var nbr_char_on_ligne = 180;
-        for(var i = 0;i<textarea.length;i++){
-            if(textarea.charCodeAt(i) == 10){
-                nbr_ligne++;
-                nbr_char_ligne = 0;
-            }else{
-                nbr_char_ligne++;
-                if(nbr_char_ligne>nbr_char_on_ligne){
-                    nbr_ligne++;
-                    nbr_char_ligne = 1;
-                } // if
-            } // else
-        } // for
-
-        // On rentre les lignes du textarea dans un tableau temporaire
-        if (confirm("Inscrire les " + nbr_ligne + " étudiants au prochain semestre ? ")) {
-            var nbr_colonne = 4;
-            var j = 0;
-            var data = textarea.split(/[;,\n]+/);
-            var etu = [];
-
-
-            for (var i=0;i<nbr_ligne;i++) {
-                for (var k=0;k<nbr_colonne;k++) {
-                    etu[k]=data[j];
-                    j++;
-                }
-                var idEtu = Etudiant.findOne({nom:etu[0],prenom:etu[1],promotion:etu[2]})._id;
-                Etudiant.update({_id:idEtu},{$push:{semestre:etu[3]}});
-
-
-                var UEsem = Semestre.findOne({nom:etu[3]}).UE;
-                for (var k =0; k<UEsem.length;k++){
-                    var moy = {
-                        id_etu : idEtu,
-                        UE:UEsem[k],
-                        moyenne:"non renseignée"
-                    }
-                    Moyenne.insert(moy);
-                    var matiere =UE.findOne({nom:UEsem[k]}).matiere; // tableau des matieres
-                    for (var l =0;l<matiere.length;l++) {
-                        var note = {
-                            nom:etu[0],
-                            prenom:etu[1],
-                            promo:etu[2],
-                            id_etu:idEtu,
-                            UE:UEsem[k],
-                            matiere:matiere[l],
-                            note:"non renseignée"
-                        }
-                        Note.insert(note);
-                    }
-                } //for k
-                var moySem = {
-                    id_etu : idEtu,
-                    UE:etu[3],
-                    moyenne:"non renseignée"
-                }
-                Moyenne.insert(moySem);
-
-            } // for i
-
-        } // if confirm
-
-
-
-
-    }
-});

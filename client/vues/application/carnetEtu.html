@@ -25,10 +25,57 @@
             <div class="jumbotron">
                 <div class="row">
                     <div class ="insert_JS">
-                        {{{infoSemestre}}}
+                        {{{infoSemestre2}}}
+                    </div>
+                </div>
+            </div>
+
+            <div class="jumbotron">
+                <div class="row">
+                    <div class ="insert_JS">
+                        {{{poursuite}}}
                     </div>
                 </div>
             </div>
         </div>
+
+
+        <script type="text/javascript" src="/jquery-latest.js"></script>
+        <script>
+            $(document).ready(function()
+            {
+
+                $('.rowToClick').click(function () {
+                    $(this).nextUntil("rowToClick").toggle();
+                });
+                $(".rowToClick2").click(function() {
+                    $(this).nextUntil(".rowToClick2").toggle();
+                });
+            });
+        </script>
+        <script>
+            function colorTest(){
+                for ( var j =0;j<6;j++) {
+                    var tds = document.getElementById('table'+j+'').getElementsByTagName('td');
+                    for(var k = 0; k < tds.length; k ++) {
+                        if(tds[k].innerHTML>=10)
+                        {
+                            tds[k].style.backgroundColor='#9bdb10';
+                        }
+                        else if(tds[k].innerHTML<10 && tds[k].innerHTML>7)
+                        {
+                            tds[k].style.backgroundColor='#ff953d';
+                        }
+                        else if(tds[k].innerHTML<8 && tds[k].innerHTML>0)
+                        {
+                            tds[k].style.backgroundColor='#ff1b1b';
+                        }
+                    }
+                }
+
+
+            }
+
+        </script>
 	</body>
 </template>

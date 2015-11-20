@@ -4,8 +4,6 @@ Template.semestre.events({
 
 		//On récupère toute les données du formulaire
 		var nomSemestre = $("input[name='nomSemestre']").val();
-		var dd = $("input[name='dateD']").val();
-		var df = $("input[name='dateF']").val();
 		var nomUE1 = $("input[name='nomUE1']").val();
 		var nomUE2 = $("input[name='nomUE2']").val();
 		var nomUE3 = $("input[name='nomUE3']").val();
@@ -49,8 +47,6 @@ Template.semestre.events({
 		// On crée l'objet qui servira de patron
 		var semestre = {
 			nom: nomSemestre,
-			dateDebut: dd,
-			dateFin: df,
 			UE:[]
 		}
         var coeffUE1 = 0;

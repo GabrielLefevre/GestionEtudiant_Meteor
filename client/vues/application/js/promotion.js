@@ -9,9 +9,21 @@
  */
 Template.carnetPromo.helpers({
 
+    /*
+     var tmp = Etudiant.find({promotion:"2015-2016"},{sort:{semestre:-1}},{limit:(1)});
+     var tmp2 = Etudiant.find({promotion:"2015-2016"}).sort({semestre:-1}).limit(1);
+     */
+
 
     infoSemestre: function () {
-        var promoCourante = Promotion.findOne({promotion: this.promotion});
+        function compare(x, y) {
+            return x - y;
+        }
+        function compareInverse(x, y) {
+            return y - x;
+        }
+
+        var promoCourante = Promotion.findOne({_id:this._id});
 
         // On commence par parcourir la Collection Semestre et on stocke dans un tableau tout les noms des semestres existant
         var sem = Semestre.find();
@@ -25,79 +37,140 @@ Template.carnetPromo.helpers({
             var listeUE = Semestre.findOne({nom: tabSem[i]}).UE; // LA liste des UE du semestre
             var listeMatiere = Matiere.findOne({semestre:tabSem[i]}).matiere; // La liste des matieres du semestre
             var listeCoeff = Matiere.findOne({semestre:tabSem[i]}).coeff; // tableau des coeff
-            var ue = 0; // indice de l'UE courant
-
+            var ueCourant = " "; // l'UE courant
+            var moyGen = 0;
             if (Note.find({UE: listeUE[0], promo: promoCourante.promotion}).count() > 0) {
-                tabHtml += " <div class=\"panel panel-primary filterable\"> <div class=\"panel-heading\"> <h3 class=\"panel-title\">" + tabSem[i] + "</h3></div> <table class=\"table\"> <thead> <tr class=\"filters\"> ";
 
-                tabHtml += "<th><input type=\"text\" class=\"form-control\" placeholder=\"Matiere\" disabled></th>";
-                tabHtml += "<th><input type=\"text\" class=\"form-control\" placeholder=\"Moyenne générale\" disabled></th>";
-                tabHtml += "<th><input type=\"text\" class=\"form-control\" placeholder=\"Moyenne la plus haute\" disabled></th>";
-                tabHtml += "<th><input type=\"text\" class=\"form-control\" placeholder=\"Moyenne la plus basse\" disabled></th> </tr> </thead> <tbody>";
+                var listeMoyGen = Moyenne.find({UE:tabSem[i],promo:promoCourante.promotion});
+                var tabMoyGen =[];
+                Moyenne.find({UE:tabSem[i],promotion:promoCourante.promotion}).forEach(function (listeMoyGen) {
+                    if(listeMoyGen.moyenne != null) {
+                        tabMoyGen.push(listeMoyGen.moyenne);
+                    }
 
-                for ( var j = 0; j<=listeMatiere.length;j++) {
-                    var moyenne = 0;
-                    if ( j== listeMatiere.length){
+                });
+                if(tabMoyGen.length>0){
+                    for(var k =0;k<tabMoyGen.length;k++) {
+                        moyGen+=tabMoyGen[k];
+                    }
+                    moyGen = moyGen/tabMoyGen.length;
+                    moyGen = Math.round(moyGen*100)/100;
+                }
+                tabMoyGen.sort(compare);
+                var minGen = tabMoyGen[0];
+                var maxGen = tabMoyGen[tabMoyGen.length-1];
 
+
+                tabHtml +="<div class=\"panel panel-primary filterable\"><div class=\"panel-heading\">";
+                tabHtml += "<h3 class=\"panel-title\">"+tabSem[i]+"</h3><p></p>";
+                tabHtml +="<a class=\"btn btn-info\" onClick=\"colorTest();\">Color</a></div>";
+                tabHtml +="<table class=\"table\" id=\"table"+i+"\"><tbody>";
+                tabHtml+="<tr class=\"rowToClick2\"><td colspan=\"6\"><b><i>General</i></b></td></tr>";
+                tabHtml+="<tr style=\"background-color:#CCCCFF\"><td></td><td colspan=\"2\">Moyenne la plus basse</td><td colspan=\"2\">Moyenne Generale</td><td colspan=\"2\">Moyenne la plus haute</td></tr>";
+                tabHtml +="<tr><td>Moyenne generale</td><td colspan=\"2\">"+minGen+"</td><td colspan=\"2\">"+moyGen+"</td><td colspan=\"2\">"+maxGen+"</td></tr>";
+                for ( var j = 0; j<listeMatiere.length;j++) {
+                    var ueNote = Note.findOne({matiere:listeMatiere[j],promo:promoCourante.promotion}).UE;
+                    var moyMat = 0;
+                    var moyUE = 0;
+
+                    if(ueNote != ueCourant) {
+                        ueCourant = ueNote;
+                        var listeMoyUE = Moyenne.find({UE:ueCourant,promo:promoCourante.promotion});
+                        var tabMoyUE =[];
+                        Moyenne.find({UE:ueCourant,promotion:promoCourante.promotion}).forEach(function (listeMoyUE) {
+                            if(listeMoyUE.moyenne != null) {
+                                tabMoyUE.push(listeMoyUE.moyenne);
+                            }
+
+                        });
+                        if(tabMoyUE.length>0){
+                            for(var k =0;k<tabMoyUE.length;k++) {
+                                moyUE+=tabMoyUE[k];
+                            }
+                            moyUE = moyUE/tabMoyUE.length;
+                            moyUE = Math.round(moyUE*100)/100;
+                        }
+
+
+                        var listeMoy = Note.find({UE:ueCourant,matiere:listeMatiere[j]});
+                        var tabMoy = [];
+                        Note.find({UE:ueCourant,matiere:listeMatiere[j],promo:promoCourante.promotion}).forEach(function (listeMoy) {
+                            if(listeMoy.note != null) {
+                                tabMoy.push(listeMoy.note);
+                            }
+
+                        });
+                        if(tabMoy.length>0){
+                            for(var k =0;k<tabMoy.length;k++) {
+                                moyMat+=tabMoy[k];
+                            }
+                            moyMat = moyMat/tabMoy.length;
+                            moyMat = Math.round(moyMat*100)/100;
+                        }
+                        tabMoy.sort(compare);
+                        var min = tabMoy[0];
+                        var max = tabMoy[tabMoy.length-1];
+                        if (moyMat==0) {
+                            tabHtml += "<tr class=\"rowToClick2\"><td colspan=\"6\"><b><i>"+ueCourant +" : </i></b></td></tr>";
+                            tabHtml+="<tr style=\"background-color:#CCCCFF\"><td>Matiere</td><td colspan=\"2\">Moyenne la plus basse</td><td colspan=\"2\">Moyenne Generale</td><td colspan=\"2\">Moyenne la plus haute</td></tr>";
+                            tabHtml +="<tr><td>"+listeMatiere[j]+"</td><td colspan=\"2\"></td><td colspan=\"2\"></td><td colspan=\"2\"></td></tr>";
+                        }
+                        else {
+                            tabHtml += "<tr class=\"rowToClick2\"><td colspan=\"6\"><b><i>"+ueCourant +" : "+ moyUE+"</i></b></td></tr>";
+                            tabHtml+="<tr style=\"background-color:#CCCCFF\"><td>Matiere</td><td colspan=\"2\">Moyenne la plus basse</td><td colspan=\"2\">Moyenne Generale</td><td colspan=\"2\">Moyenne la plus haute</td></tr>";
+                            tabHtml +="<tr><td>"+listeMatiere[j]+"</td><td colspan=\"2\">"+min+"</td><td colspan=\"2\">"+moyMat+"</td><td colspan=\"2\">"+max+"</td></tr>";
+                        }
+
+                    } // ueCourant != ueNote
+
+                    else {
+
+
+                        var listeMoy = Note.find({UE:ueCourant,matiere:listeMatiere[j]});
+                        var tabMoy = [];
+                        Note.find({UE:ueCourant,matiere:listeMatiere[j],promo:promoCourante.promotion}).forEach(function (listeMoy) {
+                            if(listeMoy.note != null) {
+                                tabMoy.push(listeMoy.note);
+                            }
+                        });
+                        if(tabMoy.length>0){
+                            for(var k =0;k<tabMoy.length;k++) {
+                                moyMat+=tabMoy[k];
+                            }
+                            moyMat = moyMat/tabMoy.length;
+                            moyMat = Math.round(moyMat*100)/100;
+                        }
+                        tabMoy.sort(compare);
+                        var min = tabMoy[0];
+                        var max = tabMoy[tabMoy.length-1];
+                        if (moyMat==0) {
+                            tabHtml +="<tr><td>"+listeMatiere[j]+"</td><td colspan=\"2\"></td><td colspan=\"2\"></td><td colspan=\"2\"></td></tr>";
+                        }
+                        else {
+                            tabHtml +="<tr><td>"+listeMatiere[j]+"</td><td colspan=\"2\">"+min+"</td><td colspan=\"2\">"+moyMat+"</td><td colspan=\"2\">"+max+"</td></tr>";
+                        }
+                    } // else
+                } // for matiere
+                tabMoyGen.sort(compareInverse);
+                tabHtml += "<tr class=\"rowToClick2\"><td colspan=\"6\"><b><i>Classement des étudiants</i></b></td></tr>";
+                tabHtml+="<tr style=\"background-color:#CCCCFF\"><td>Nom</td><td colspan=\"2\">Prenom</td><td colspan=\"2\">Moyenne Generale</td><td colspan=\"2\">Classement</td></tr>";
+                for(var l = 0; l<tabMoyGen.length;l++) {
+                    var idEtudiant = Moyenne.findOne({UE:tabSem[i],moyenne:tabMoyGen[l],promotion:promoCourante.promotion}).id_etu;
+                    var etudiant = Etudiant.findOne({_id:idEtudiant});
+                    var classement = l+1;
+                    classement.toString();
+                    if(classement=="1"){
+                        classement+="er";
                     }
                     else {
-                        var ueNote = Note.findOne({matiere:listeMatiere[j],promo:promoCourante.promotion}).UE;
-                        if(ueNote!=listeUE[ue]) {
-
-                            var moyenneUE = 0;
-                            var listeMoyUE = Moyenne.find({UE:listeUE[ue]});
-                            var tabMoyUE = [];
-                            Moyenne.find({UE:listeUE[ue]}).forEach(function (listeMoyUE) {
-                                tabMoyUE.push(listeMoyUE.note);
-                            });
-                            for(var k=0; k<tabMoyUE.length; k++) {
-                                moyenneUE += tabMoyUE[k];
-                            }
-                            moyenneUE = moyenneUE/tabMoyUE.length;
-                            tabHtml+="<tr><td name=\"matiere\"><b>"+listeUE[ue]+"</b></td><td name=\"Moyenne\">"+moyenneUE+"</td><td name=\"moyBasse\">a venir</td><td name=\"moyHaute\">a venir</td></tr>";
-                            ue++;
-
-
-                            var listeMoy = Note.find({UE:listeUE[ue],matiere:listeMatiere[j]});
-                            var tabMoy = [];
-                            Note.find({UE:listeUE[ue],matiere:listeMatiere[j]}).forEach(function (listeMoy) {
-                                tabMoy.push(listeMoy.note);
-                            });
-                            for(var k=0; k<tabMoy.length; k++) {
-                                moyenne += tabMoy[k];
-                            }
-                            moyenne = moyenne/tabMoy.length;
-                            tabHtml+="<tr><td name=\"matiere\">"+listeMatiere[j]+"</td><td name=\"Moyenne\">"+moyenne+"</td><td name=\"moyBasse\">a venir</td><td name=\"moyHaute\">a venir</td></tr>";
-                        }
-
-                        else {
-                            var listeMoy = Note.find({UE:listeUE[ue],matiere:listeMatiere[j]});
-                            var tabMoy = [];
-                            Note.find({UE:listeUE[ue],matiere:listeMatiere[j]}).forEach(function (listeMoy) {
-                                tabMoy.push(listeMoy.note);
-                            });
-                            for(var k=0; k<tabMoy.length; k++) {
-                                moyenne += tabMoy[k];
-                            }
-                            moyenne = moyenne/tabMoy.length;
-                            tabHtml+="<tr><td name=\"matiere\">"+listeMatiere[j]+"</td><td name=\"Moyenne\">"+moyenne+"</td><td name=\"moyBasse\">a venir</td><td name=\"moyHaute\">a venir</td></tr>";
-
-                        }
-
-
-
-
-
+                        classement +="eme";
                     }
 
+                    tabHtml +="<tr><td>"+etudiant.nom+"</td><td colspan=\"2\">"+etudiant.prenom+"</td><td colspan=\"2\">"+tabMoyGen[l]+"</td><td colspan=\"2\">"+classement+"</td></tr>";
 
-
-
-
-
-
-                } // for matiere
+                }
                 tabHtml += "</tbody></table></div>";
+
             } // if
         } // for i
 
@@ -197,4 +270,52 @@ Template.carnetPromo.events({
 });
 
 
-//var tmp = Etudiant.find({promotion:"2015-2016"},{sort:{semestre:-1}},{limit:(1)});
+/*
+ for ( var j = 0; j<=listeMatiere.length;j++) {
+ var ueNote = Note.findOne({matiere:listeMatiere[j],promo:promoCourante.promotion}).UE;
+ if(ueNote!=listeUE[ue]) {
+
+ var moyenneUE = 0;
+ var listeMoyUE = Moyenne.find({UE:listeUE[ue]});
+ var tabMoyUE = [];
+ Moyenne.find({UE:listeUE[ue]}).forEach(function (listeMoyUE) {
+ tabMoyUE.push(listeMoyUE.note);
+ });
+ for(var k=0; k<tabMoyUE.length; k++) {
+ moyenneUE += tabMoyUE[k];
+ }
+ moyenneUE = moyenneUE/tabMoyUE.length;
+ tabHtml+="<tr><td name=\"matiere\"><b>"+listeUE[ue]+"</b></td><td name=\"Moyenne\">"+moyenneUE+"</td><td name=\"moyBasse\">a venir</td><td name=\"moyHaute\">a venir</td></tr>";
+ ue++;
+
+
+ var listeMoy = Note.find({UE:listeUE[ue],matiere:listeMatiere[j]});
+ var tabMoy = [];
+ Note.find({UE:listeUE[ue],matiere:listeMatiere[j]}).forEach(function (listeMoy) {
+ tabMoy.push(listeMoy.note);
+ });
+ for(var k=0; k<tabMoy.length; k++) {
+ moyenne += tabMoy[k];
+ }
+ moyenne = moyenne/tabMoy.length;
+ tabHtml+="<tr><td name=\"matiere\">"+listeMatiere[j]+"</td><td name=\"Moyenne\">"+moyenne+"</td><td name=\"moyBasse\">a venir</td><td name=\"moyHaute\">a venir</td></tr>";
+ }
+
+ else {
+ var listeMoy = Note.find({UE:listeUE[ue],matiere:listeMatiere[j]});
+ var tabMoy = [];
+ Note.find({UE:listeUE[ue],matiere:listeMatiere[j]}).forEach(function (listeMoy) {
+ tabMoy.push(listeMoy.note);
+ });
+ for(var k=0; k<tabMoy.length; k++) {
+ moyenne += tabMoy[k];
+ }
+ moyenne = moyenne/tabMoy.length;
+ tabHtml+="<tr><td name=\"matiere\">"+listeMatiere[j]+"</td><td name=\"Moyenne\">"+moyenne+"</td><td name=\"moyBasse\">a venir</td><td name=\"moyHaute\">a venir</td></tr>";
+
+ }
+ }
+
+ } // for matiere
+ tabHtml += "</tbody></table></div>";
+ */

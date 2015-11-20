@@ -37,21 +37,22 @@ Template.inscription.events({
                     j++;
                 }
                // On verifie l'existence de la promotion dans la BDD sinon on la crée
-                if ( Promotion.find({promotion:etu[3]}).count()>0) {
-                    Etudiant.insert({nom:etu[0],prenom:etu[1],groupe:etu[2],promotion:etu[3],mail:etu[4],adresse:etu[5],cp:etu[6],ville:etu[7],semestre:[etu[8]]});
+                if ( Promotion.find({promotion:etu[2]}).count()>0) {
+                    Etudiant.insert({nom:etu[0],prenom:etu[1],promotion:etu[2],mail:etu[3],adresse:etu[4],cp:etu[5],ville:etu[6],photo:etu[8],semestre:[etu[7]]});
                 } // if
                 else {
                     var promo = {
-                        promotion:etu[3]
+                        promotion:etu[2]
                     }
                     Promotion.insert(promo);
-                    Etudiant.insert({nom:etu[0],prenom:etu[1],groupe:etu[2],promotion:etu[3],mail:etu[4],adresse:etu[5],cp:etu[6],ville:etu[7],semestre:etu[8]});
+                    Etudiant.insert({nom:etu[0],prenom:etu[1],promotion:etu[2],mail:etu[3],adresse:etu[4],cp:etu[5],ville:etu[6],photo:etu[8],semestre:[etu[7]]});
                 } // else
-                var id = Etudiant.findOne({nom:etu[0],prenom:etu[1],groupe:etu[2],promotion:etu[3]})._id;
-                var UEsem = Semestre.findOne({nom:etu[8]}).UE;
+                var id = Etudiant.findOne({nom:etu[0],prenom:etu[1],promotion:etu[2]})._id;
+                var UEsem = Semestre.findOne({nom:etu[7]}).UE;
                 for (var l =0; l<UEsem.length;l++){
                     var moy = {
                         id_etu : id,
+                        promotion:etu[2],
                         UE:UEsem[l],
                         moyenne:null
                     }
@@ -61,7 +62,7 @@ Template.inscription.events({
                         var note = {
                             nom:etu[0],
                             prenom:etu[1],
-                            promo:etu[3],
+                            promo:etu[2],
                             id_etu:id,
                             UE:UEsem[l],
                             matiere:matiere[m],
@@ -72,7 +73,8 @@ Template.inscription.events({
                 } //for l
                 var moySem = {
                     id_etu : id,
-                    UE:etu[8],
+                    promotion:etu[2],
+                    UE:etu[7],
                     moyenne:null
                 }
                 Moyenne.insert(moySem);

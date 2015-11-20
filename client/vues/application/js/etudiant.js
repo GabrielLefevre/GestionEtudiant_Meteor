@@ -215,14 +215,6 @@ Template.carnetEtu.helpers({
 
 
 });
-/*
-
- */
-
-
-
-
-
 
 /*
  ----------------------------------------------------------
@@ -233,8 +225,6 @@ Template.carnetEtu.helpers({
 Template.carnetEtu.events({
     'submit form': function(e){
 		e.preventDefault();
-
-            alert(sem);
 		
 	}
 });

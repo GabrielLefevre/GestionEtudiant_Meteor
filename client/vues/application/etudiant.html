@@ -15,7 +15,6 @@
 								<tr class="filters">
 									<th><input type="text" class="form-control" placeholder="Nom" disabled></th>
 									<th><input type="text" class="form-control" placeholder="Prenom" disabled></th>
-									<th><input type="text" class="form-control" placeholder="Groupe" disabled></th>
 									<th><input type="text" class="form-control" placeholder="Mail" disabled></th>
 									<th><input type="text" class="form-control" placeholder="Adresse" disabled></th>
 									<th><input type="text" class="form-control" placeholder="Code postal" disabled></th>
@@ -23,12 +22,11 @@
 									<th> Actions </th> 
 								</tr>
 							</thead>
-							<tbody><!-- on en est la -->
+							<tbody>
 								{{#each etudiant}}
 								<tr>
 									<td name="nom">{{ nom }}</td>
 									<td name="prenom">{{ prenom }}</td>
-									<td name="groupe">{{ groupe }}</td>
 									<td name="mail">{{ mail }}</td>
 									<td name="adresse">{{ adresse }}</td>
 									<td name="cp">{{ cp }}</td>

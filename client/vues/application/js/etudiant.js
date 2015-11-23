@@ -189,7 +189,7 @@ Template.carnetEtu.helpers({
             var moyenne = MoySemestre/nbr_moy;
         }
 
-        info += " <div class=\"panel panel-primary filterable\"> <div class=\"panel-heading\"> <h3 class=\"panel-title\">Avis poursuite d'étude</h3></div> <table class=\"table\"> <thead> <tr class=\"filters\"> ";
+        info += " <div class=\"panel panel-primary filterable\"> <div class=\"panel-heading\"> <h3 class=\"panel-title\">Avis de poursuite d'étude</h3></div> <table class=\"table\"> <thead> <tr class=\"filters\"> ";
 
         info += "<th><input type=\"text\" class=\"form-control\" placeholder=\"Poursuite\" disabled></th>";
         info += "<th><input type=\"text\" class=\"form-control\" placeholder=\"Favorable\" disabled></th>";

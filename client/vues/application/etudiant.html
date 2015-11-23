@@ -19,7 +19,7 @@
 									<th><input type="text" class="form-control" placeholder="Adresse" disabled></th>
 									<th><input type="text" class="form-control" placeholder="Code postal" disabled></th>
 									<th><input type="text" class="form-control" placeholder="Ville" disabled></th>
-									<th> Actions </th> 
+									<th> Actions </th>
 								</tr>
 							</thead>
 							<tbody>
@@ -40,15 +40,15 @@
 				</div>
 			</div>	
 		</div>
-		
-		<div class="container">
+
+		<!--<div class="container">
 			<div class="jumbotron">
 				<div class="row">
 					<form class="form-horizontal">
 					<fieldset>
 					<h2>Ajouter un etudiant</h2>
          
-					<!-- nom -->
+					&lt;!&ndash; nom &ndash;&gt;
 					<div class="control-group">
 						<label class="control-label">Nom</label>
 						<div class="controls">
@@ -59,7 +59,7 @@
 					</div>
 				
 				
-					<!-- prenom -->
+					&lt;!&ndash; prenom &ndash;&gt;
 					<div class="control-group">
 						<label class="control-label">Prenom</label>
 						<div class="controls">
@@ -70,7 +70,7 @@
 					</div>
 				
 				
-					 <!-- groupe -->
+					 &lt;!&ndash; groupe &ndash;&gt;
 					<div class="control-group">
 						<label class="control-label">Groupe</label>
 						<div class="controls">
@@ -89,7 +89,7 @@
 						</div>
 					</div>
 
-					<!-- promotion -->
+					&lt;!&ndash; promotion &ndash;&gt;
 					<div class="control-group">
 						<label class="control-label">Promotion</label>
 						<div class="controls">
@@ -104,7 +104,7 @@
 					</div>
                 
 				
-					<!-- mail-->
+					&lt;!&ndash; mail&ndash;&gt;
 					<div class="control-group">
 						<label class="control-label">Mail</label>
 						<div class="controls">
@@ -114,7 +114,7 @@
 					</div>
 				
 				
-					<!-- adresse -->
+					&lt;!&ndash; adresse &ndash;&gt;
 					<div class="control-group">
 						<label class="control-label">Adresse</label>
 						<div class="controls">
@@ -123,7 +123,7 @@
 						</div>
 					</div>
 				
-					<!-- Ville-->
+					&lt;!&ndash; Ville&ndash;&gt;
 					<div class="control-group">
 						<label class="control-label">ville</label>
 						<div class="controls">
@@ -134,7 +134,7 @@
 					</div>
 				
 				
-					<!-- code postal-->
+					&lt;!&ndash; code postal&ndash;&gt;
 					<div class="control-group">
 						<label class="control-label">Code postal</label>
 						<div class="controls">
@@ -144,7 +144,7 @@
 						</div>
 					</div>
 					
-					 <!-- inscription -->
+					 &lt;!&ndash; inscription &ndash;&gt;
 					<div class="control-group">
 						<label class="control-label">Inscrire l'étudiant à un semestre</label>
 						<div class="controls">
@@ -163,14 +163,14 @@
 					</form>
 				</div>
 			</div>
-		</div>
-		
+		</div>-->
+
 		<script>
 			$(document).ready(function(){
 				$('.filterable .btn-filter').click(function(){
 					var $panel = $(this).parents('.filterable'),
-					$filters = $panel.find('.filters input'),
-					$tbody = $panel.find('.table tbody');
+							$filters = $panel.find('.filters input'),
+							$tbody = $panel.find('.table tbody');
 					if ($filters.prop('disabled') == true) {
 						$filters.prop('disabled', false);
 						$filters.first().focus();
@@ -187,11 +187,11 @@
 					if (code == '9') return;
 					/* Useful DOM data and selectors */
 					var $input = $(this),
-					inputContent = $input.val().toLowerCase(),
-					$panel = $input.parents('.filterable'),
-					column = $panel.find('.filters th').index($input.parents('th')),
-					$table = $panel.find('.table'),
-					$rows = $table.find('tbody tr');
+							inputContent = $input.val().toLowerCase(),
+							$panel = $input.parents('.filterable'),
+							column = $panel.find('.filters th').index($input.parents('th')),
+							$table = $panel.find('.table'),
+							$rows = $table.find('tbody tr');
 					/* Dirtiest filter function ever ;) */
 					var $filteredRows = $rows.filter(function(){
 						var value = $(this).find('td').eq(column).text().toLowerCase();

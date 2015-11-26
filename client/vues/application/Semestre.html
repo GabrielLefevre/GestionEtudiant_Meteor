@@ -14,8 +14,6 @@
 							<thead>
 								<tr class="filters">
 									<th><input type="text" class="form-control" placeholder="Nom" disabled></th>
-									<th><input type="text" class="form-control" placeholder="date Debut" disabled></th>
-									<th><input type="text" class="form-control" placeholder="Date Fin" disabled></th>
 									<th> Actions </th> 
 								</tr>
 							</thead>
@@ -23,8 +21,6 @@
 								{{#each semestre}}
 								<tr>
 									<td name="nom">{{ nom }}</td>
-									<td name="nom">{{ dateDebut }}</td>
-									<td name="nom">{{ dateFin }}</td>
 									<td>  <a class="btn btn-danger delete" href="#">Suppr</a></td>
 								</tr>
 								{{/each}}

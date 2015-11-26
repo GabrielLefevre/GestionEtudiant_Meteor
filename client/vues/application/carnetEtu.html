@@ -41,38 +41,55 @@
 
         <script type="text/javascript" src="/jquery-latest.js"></script>
         <script>
+            /* Gerer le toggle */
             $(document).ready(function()
             {
-
                 $('.rowToClick').click(function () {
-                    $(this).nextUntil("rowToClick").toggle();
+                    //$(this).nextUntil("rowToClick").toggle();
+                    $(this).nextUntil(".rowToClick").toggle();
                 });
                 $(".rowToClick2").click(function() {
                     $(this).nextUntil(".rowToClick2").toggle();
                 });
             });
-        </script>
-        <script>
-            function colorTest(){
-                for ( var j =0;j<6;j++) {
-                    var tds = document.getElementById('table'+j+'').getElementsByTagName('td');
-                    for(var k = 0; k < tds.length; k ++) {
-                        if(tds[k].innerHTML>=10)
-                        {
-                            tds[k].style.backgroundColor='#9bdb10';
-                        }
-                        else if(tds[k].innerHTML<10 && tds[k].innerHTML>7)
-                        {
-                            tds[k].style.backgroundColor='#ff953d';
-                        }
-                        else if(tds[k].innerHTML<8 && tds[k].innerHTML>0)
-                        {
-                            tds[k].style.backgroundColor='#ff1b1b';
-                        }
+
+            /* Colorier les cases du tableau */
+            function color(){
+                var tds = document.getElementById('table').getElementsByTagName('td');
+                for(var k = 0; k < tds.length; k ++) {
+                    if (tds[k].innerHTML > 9) {
+                        tds[k].style.backgroundColor = '#9bdb10';
+                    }
+                    else if (tds[k].innerHTML < 10 && tds[k].innerHTML > 7) {
+                        tds[k].style.backgroundColor = '#ff953d';
+                    }
+                    else if (tds[k].innerHTML < 8 && tds[k].innerHTML > 0) {
+                        tds[k].style.backgroundColor = '#ff1b1b';
                     }
                 }
+                return true;
+            }
 
+            /* Décolorier les cases du tableau */
+            function decolor(){
+                var tds = document.getElementById('table').getElementsByTagName('td');
+                for(var k = 0; k < tds.length; k ++) {
+                    tds[k].style.backgroundColor='';
+                }
+                return true;
+            }
 
+            var action = 1;
+
+            /* Une fonction a chaque clique */
+            function colorier() {
+                if ( action == 1 ) {
+                    color();
+                    action = 2;
+                } else {
+                    decolor();
+                    action = 1;
+                }
             }
 
         </script>

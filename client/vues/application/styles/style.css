@@ -59,6 +59,25 @@ textarea {
     color: #333;
 }
 
+/* tables */
+table.table thead tr .header {
+	background-image: url(bg.gif);
+	background-repeat: no-repeat;
+	background-position: center right;
+	cursor: pointer;
+	height: 30px;
+}
+table.table thead tr .headerSortUp {
+	background-image: url(asc.gif);
+}
+table.table thead tr .headerSortDown {
+	background-image: url(desc.gif);
+}
+
+table.table thead tr .headerSortUp, table.tablesorter thead tr .headerSortUp {
+	background-color: #8dbdd8;
+}
+
 
 input, select { padding:5px; border:1px solid #999; border-radius:4px; -moz-border-radius:4px; -web-kit-border-radius:4px; -khtml-border-radius:4px; }
 

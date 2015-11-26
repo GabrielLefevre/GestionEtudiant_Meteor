@@ -78,8 +78,8 @@ les meilleures et pires moyenne de chaque matière
 
                 tabHtml +="<div class=\"panel panel-primary filterable\"><div class=\"panel-heading\">";
                 tabHtml += "<h3 class=\"panel-title\">"+tabSem[i]+"</h3><p></p>";
-                tabHtml +="<a class=\"btn btn-info\" onClick=\"colorTest();\">Color</a></div>";
-                tabHtml +="<table class=\"table\" id=\"table"+i+"\"><tbody>";
+                tabHtml +="<a class=\"btn btn-info\" onClick=\"colorier();\">Color</a></div>";
+                tabHtml +="<table class=\"table\" id=\"table\"><tbody>";
                 tabHtml+="<tr class=\"rowToClick2\"><td colspan=\"6\"><b><i>General</i></b></td></tr>";
                 tabHtml+="<tr style=\"background-color:#CCCCFF\"><td></td><td colspan=\"2\">Moyenne la plus basse</td><td colspan=\"2\">Moyenne Generale</td><td colspan=\"2\">Moyenne la plus haute</td></tr>";
                 tabHtml +="<tr><td>Moyenne generale</td><td colspan=\"2\">"+minGen+"</td><td colspan=\"2\">"+moyGen+"</td><td colspan=\"2\">"+maxGen+"</td></tr>";

@@ -10,6 +10,14 @@
 								<button class="btn btn-default btn-xs btn-filter">Filtre</button>
 							</div>
 						</div>
+						<script type="text/javascript" src="/jquery-latest.js"></script>
+						<script type="text/javascript" src="/jquery.tablesorter.js"></script>
+
+						<script type="text/javascript">
+							$(function() {
+								$("table").tablesorter({debug: true});
+							});
+						</script>
 						<table class="table">
 							<thead>
 								<tr class="filters">

@@ -1,24 +1,33 @@
 ﻿<template name='promotion'>
 	<body>
-		<div class="container">
-			<div class="jumbotron">
-				<table class="table">
-					<thead>
-					<tr>
-						<th>Promotion</th>
-						<th> Voir </th>
-					</tr>
-					</thead>
-					<tbody>
-					{{#each promotion}}
-					<tr>
-						<td name="promotion">{{ promotion }}</td>
-						 <td><a class="btn btn-info" href="/promotion/{{_id}}">carnet</a></td>
-					</tr>
-					{{/each}}
-					</tbody>
-				</table>
-			</div>	
-		</div>
+    <div class="container">
+        <div class="jumbotron">
+            <div class="row">
+                <div class="panel panel-primary filterable">
+                    <div class="panel-heading">
+                        <h3 class="panel-title">Promotion</h3>
+                    </div>
+                    <table class="table">
+                        <thead>
+                        <tr>
+                            <th>Promotion</th>
+                            <th> Voir </th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        {{#each promotion}}
+                        <tr>
+                            <td name="promotion">{{ promotion }}</td>
+                            <td><a class="btn btn-info" href="/promotion/{{_id}}">carnet</a></td>
+                        </tr>
+                        {{/each}}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
 	</body>
 </template>
+
+

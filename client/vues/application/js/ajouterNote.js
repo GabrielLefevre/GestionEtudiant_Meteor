@@ -1,18 +1,7 @@
 /*
-TODO
-
-Dire les etudiants sans note (apres ajout) => a completer
-
-
-exemple de fichier:
-
-
- ANDROID	2014-2015	UE41C
- Lefevre	Gabriel	12	M
- Dubus	Damien	13	A
- Dupont	Alex	16	A
-
- Ajoute une note pour la matière Android de l'ue41c de la promo 2014-2015 pour deux étudiants (A), un étudiant voit sa note modifié (M)
+ ----------------------------------------------------------
+ -----------------Template note----------------------------
+ ----------------------------------------------------------
  */
 Template.note.events({
 	'click .add': function(e) {
@@ -59,7 +48,8 @@ Template.note.events({
 
         /*
         Selon le nombre d'étudiant dans la BDD et le nombre d'étudiant de la lsite
-        on va ou retourner une erreur ou mettre a jour la Collection Note
+        on va ou retourner une erreur ou mettre a jour la Collection Note,
+        a chaque ajout d'une note pour un étudiant, la moyenne de ses UE et sa moyenne générale et recalculé
          */
         if (nbr_etu_DB<nbr_etu_list) {
             alert("vous n'avez pas autant d'étudiant inscris à ce cours dans la base de données ! \n" +
@@ -70,6 +60,9 @@ Template.note.events({
             if (confirm("Vous allez entrer  " + nbr_etu_list + " note d'étudiant pour les " + nbr_etu_DB + " étudiants inscris à ce cours dans la base de données, continuer ?")) {
                 var etu=[];
                 var cpt = 0;
+                /*
+                On recupère chaque ligne dans un tableau etu[] pour pouvoir traiter les ajouts de note
+                 */
 
                 for (var i=1;i<nbr_ligne;i++) {
                     var cpt1 = cpt+1;
@@ -79,22 +72,29 @@ Template.note.events({
                         j++;
                     }
 
-                    var id_etu = Etudiant.findOne({nom:etu[cpt], prenom:etu[cpt1],promotion:promo})._id;
-
+                    var id_etu = Etudiant.findOne({nom:etu[cpt], prenom:etu[cpt1],promotion:promo})._id; // l'id de l'étudiant concerné
+                    /*
+                    On recherche dans la BDD le document correspondant à la matière de l'étudiant que l'on souhaite modifier et on ajoute la note
+                     */
                     var noteTmp = Note.findOne({nom:etu[cpt],prenom:etu[cpt1],promo:promo,UE:ue,matiere:mat});
                     idTmp = noteTmp._id;
                     Note.update(_id=idTmp,{$set:{note:parseFloat(etu[cpt2])}});
 
-                    var semCourant = UE.findOne({nom:ue}).semestre;
+                    var semCourant = UE.findOne({nom:ue}).semestre; // semestre courant
                     var matiere =Matiere.findOne({semestre:semCourant}).matiere; // tableau des matieres
                     var coeff = Matiere.findOne({semestre:semCourant}).coeff; // tableau des coeff
                     var sommeMoyMatiere = 0;
                     var sommeCoeffMatiere = 0;
-                    var listeUE = Semestre.findOne({nom:semCourant}).UE;
+                    var listeUE = Semestre.findOne({nom:semCourant}).UE; // tableau des UE de ce semestre
                     var k=0;
                     var moyenne=0;
                     var tabMoy = [];
                     var tabCoeff = [];
+                    /*
+                    On parcourt toute les matières de chaque UE pour pouvoir calculer les moyennes des UE et la moyenne générale du semestre
+                    On va verifier que des notes ont deja été entrée dans un UE sinon on laisse la moyenne a null et on ne la prends pas en compte
+                    pour le calcul de la moyenne du semestre
+                     */
                     for(var l =0;l<=matiere.length;l++) {
                         if(l==matiere.length) {
                             if(sommeCoeffMatiere == 0 ){
@@ -113,8 +113,12 @@ Template.note.events({
                         }
 
                         else {
-                            var noteMat = Note.findOne({id_etu:id_etu,matiere:matiere[l]}).note;
-                            var ueNote = Note.findOne({id_etu:id_etu,matiere:matiere[l]}).UE;
+                            var noteMat = Note.findOne({id_etu:id_etu,matiere:matiere[l]}).note; // on recupere la note du document actuel
+                            var ueNote = Note.findOne({id_etu:id_etu,matiere:matiere[l]}).UE; // on regarde a quel UE appartient la note sur laquel nous sommes
+                           /*
+                           Si au cours de notre parcours des note nous arrivons a des note d'un nouvel UE on calcul sa moyenne et on passe a l'UE suivant
+                           Si aucune note n'a deja été entrée dans un UE on laisse la valeur de la moyenne a null
+                            */
                             if(listeUE[k]!=ueNote) {
                                 if(sommeCoeffMatiere == 0 ){
                                     moyenne = null;
@@ -144,8 +148,10 @@ Template.note.events({
                             }
                         }
                     } // for
-
-                    alert(tabMoy+ " "+ tabCoeff);
+                    /*
+                    On calcul la moyenne générale d'un semestre, on ne prend en compte que les UE ayant deja au moins une
+                    note a leur actif
+                     */
                     var moySem = 0;
                     var sommeCoeff = 0;
                     for (var m = 0;m<tabMoy.length;m++) {

@@ -13,10 +13,21 @@
             <div class="row">
                 <div class="form-group">
                     <label for="comment">Contenu Excel pour passage au semesre suivant:</label>
-                    <i>au format<br/> Nom;Prenom;Semestre</i>
-                    <textarea class="form-control" rows="10" cols="250" id="textarea" placeholder="Dupont;Marc;S2"></textarea>
+                    <i>au format<br/> Nom;Prenom;Semestre;décision du jury pour le semestre en cours</i>
+                    <textarea class="form-control" rows="10" cols="250" id="textarea" placeholder="Dupont;Marc;S2;Passage au S2"></textarea>
                 </div>
                 <input class="add" type="submit" value="Valider"  />
+            </div>
+        </div>
+
+        <div class="jumbotron">
+            <div class="row">
+                <div class="form-group">
+                    <label for="comment">Contenu Excel pour redoublement:</label>
+                    <i>au format<br/> Nom;Prenom;promotion de destination;semestre de destination;les UE validés<br/>Si aucun UE validé mettre "aucun"</i>
+                    <textarea class="form-control" rows="10" cols="250" id="redoublement" placeholder="Dupont;Marc;2016-2017;S1;UE11;UE13;UE22"></textarea>
+                </div>
+                <input class="redoublement" type="submit" value="Valider"  />
             </div>
         </div>
 

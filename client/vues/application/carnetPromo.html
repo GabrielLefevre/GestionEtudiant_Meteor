@@ -12,7 +12,7 @@
         <div class="jumbotron">
             <div class="row">
                 <div class="form-group">
-                    <label for="comment">Contenu Excel pour passage au semesre suivant:</label>
+                    <label for="comment">Contenu CSV pour passage au semesre suivant:</label>
                     <i>au format<br/> Nom;Prenom;Semestre;décision du jury pour le semestre en cours</i>
                     <textarea class="form-control" rows="10" cols="250" id="textarea" placeholder="Dupont;Marc;S2;Passage au S2"></textarea>
                 </div>
@@ -23,7 +23,7 @@
         <div class="jumbotron">
             <div class="row">
                 <div class="form-group">
-                    <label for="comment">Contenu Excel pour redoublement:</label>
+                    <label for="comment">Contenu CSV pour redoublement:</label>
                     <i>au format<br/> Nom;Prenom;promotion de destination;semestre de destination;les UE validés<br/>Si aucun UE validé mettre "aucun"</i>
                     <textarea class="form-control" rows="10" cols="250" id="redoublement" placeholder="Dupont;Marc;2016-2017;S1;UE11;UE13;UE22"></textarea>
                 </div>
@@ -47,43 +47,216 @@
         });
 
         /* Colorier les cases du tableau */
-        function color(){
-            var tds = document.getElementById('table').getElementsByTagName('td');
-            for(var k = 0; k < tds.length; k ++) {
-                    if (tds[k].innerHTML > 9) {
+        function color0(){
+            var tds = document.getElementById('table0').getElementsByTagName('td');
+            for(var k = 2; k < tds.length; k ++) {
+                    if (tds[k].innerHTML >= 10) {
                         tds[k].style.backgroundColor = '#9bdb10';
                     }
-                    else if (tds[k].innerHTML < 10 && tds[k].innerHTML > 7) {
+                    else if (tds[k].innerHTML < 10 && tds[k].innerHTML >= 8) {
                         tds[k].style.backgroundColor = '#ff953d';
                     }
-                    else if (tds[k].innerHTML < 8 && tds[k].innerHTML > 0) {
+                    else if (tds[k].innerHTML < 8 && tds[k].innerHTML > 0  ) {
                         tds[k].style.backgroundColor = '#ff1b1b';
                     }
             }
             return true;
         }
-
         /* Décolorier les cases du tableau */
-        function decolor(){
-            var tds = document.getElementById('table').getElementsByTagName('td');
+        function decolor0(){
+            var tds = document.getElementById('table0').getElementsByTagName('td');
             for(var k = 0; k < tds.length; k ++) {
                 tds[k].style.backgroundColor='';
             }
             return true;
         }
-
-        var action = 1;
-
+        var action0 = true;
         /* Une fonction a chaque clique */
-        function colorier() {
-            if ( action == 1 ) {
-                color();
-                action = 2;
+        function colorier0() {
+            if ( action0) {
+                color0();
+                action0 = false;
             } else {
-                decolor();
-                action = 1;
+                decolor0();
+                action0 = true;
             }
         }
+
+        function color1(){
+            var tds = document.getElementById('table1').getElementsByTagName('td');
+            for(var k = 2; k < tds.length; k ++) {
+                if (tds[k].innerHTML >= 10) {
+                    tds[k].style.backgroundColor = '#9bdb10';
+                }
+                else if (tds[k].innerHTML < 10 && tds[k].innerHTML >= 8) {
+                    tds[k].style.backgroundColor = '#ff953d';
+                }
+                else if (tds[k].innerHTML < 8 && tds[k].innerHTML > 0  ) {
+                    tds[k].style.backgroundColor = '#ff1b1b';
+                }
+            }
+            return true;
+        }
+        /* Décolorier les cases du tableau */
+        function decolor1(){
+            var tds = document.getElementById('table1').getElementsByTagName('td');
+            for(var k = 0; k < tds.length; k ++) {
+                tds[k].style.backgroundColor='';
+            }
+            return true;
+        }
+        var action1 = true;
+        /* Une fonction a chaque clique */
+        function colorier1() {
+            if ( action1) {
+                color1();
+                action1 = false;
+            } else {
+                decolor1();
+                action1 = true;
+            }
+        }
+
+        function color2(){
+            var tds = document.getElementById('table2').getElementsByTagName('td');
+            for(var k = 2; k < tds.length; k ++) {
+                if (tds[k].innerHTML >= 10) {
+                    tds[k].style.backgroundColor = '#9bdb10';
+                }
+                else if (tds[k].innerHTML < 10 && tds[k].innerHTML >= 8) {
+                    tds[k].style.backgroundColor = '#ff953d';
+                }
+                else if (tds[k].innerHTML < 8 && tds[k].innerHTML > 0  ) {
+                    tds[k].style.backgroundColor = '#ff1b1b';
+                }
+            }
+            return true;
+        }
+        /* Décolorier les cases du tableau */
+        function decolor2(){
+            var tds = document.getElementById('table2').getElementsByTagName('td');
+            for(var k = 0; k < tds.length; k ++) {
+                tds[k].style.backgroundColor='';
+            }
+            return true;
+        }
+        var action2 = true;
+        /* Une fonction a chaque clique */
+        function colorier2() {
+            if ( action2) {
+                color2();
+                action2 = false;
+            } else {
+                decolor2();
+                action2 = true;
+            }
+        }
+
+        function color3(){
+            var tds = document.getElementById('table3').getElementsByTagName('td');
+            for(var k = 2; k < tds.length; k ++) {
+                if (tds[k].innerHTML >= 10) {
+                    tds[k].style.backgroundColor = '#9bdb10';
+                }
+                else if (tds[k].innerHTML < 10 && tds[k].innerHTML >= 8) {
+                    tds[k].style.backgroundColor = '#ff953d';
+                }
+                else if (tds[k].innerHTML < 8 && tds[k].innerHTML > 0  ) {
+                    tds[k].style.backgroundColor = '#ff1b1b';
+                }
+            }
+            return true;
+        }
+        /* Décolorier les cases du tableau */
+        function decolor3(){
+            var tds = document.getElementById('table3').getElementsByTagName('td');
+            for(var k = 0; k < tds.length; k ++) {
+                tds[k].style.backgroundColor='';
+            }
+            return true;
+        }
+        var action3 = true;
+        /* Une fonction a chaque clique */
+        function colorier3() {
+            if ( action3) {
+                color3();
+                action3 = false;
+            } else {
+                decolor3();
+                action3= true;
+            }
+        }
+
+        function color4(){
+            var tds = document.getElementById('table4').getElementsByTagName('td');
+            for(var k = 2; k < tds.length; k ++) {
+                if (tds[k].innerHTML >= 10) {
+                    tds[k].style.backgroundColor = '#9bdb10';
+                }
+                else if (tds[k].innerHTML < 10 && tds[k].innerHTML >= 8) {
+                    tds[k].style.backgroundColor = '#ff953d';
+                }
+                else if (tds[k].innerHTML < 8 && tds[k].innerHTML > 0  ) {
+                    tds[k].style.backgroundColor = '#ff1b1b';
+                }
+            }
+            return true;
+        }
+        /* Décolorier les cases du tableau */
+        function decolor4(){
+            var tds = document.getElementById('table4').getElementsByTagName('td');
+            for(var k = 0; k < tds.length; k ++) {
+                tds[k].style.backgroundColor='';
+            }
+            return true;
+        }
+        var action4 = true;
+        /* Une fonction a chaque clique */
+        function colorier4() {
+            if ( action4) {
+                color4();
+                action4= false;
+            } else {
+                decolor4();
+                action4 = true;
+            }
+        }
+
+        function color5(){
+            var tds = document.getElementById('table5').getElementsByTagName('td');
+            for(var k = 2; k < tds.length; k ++) {
+                if (tds[k].innerHTML >= 10) {
+                    tds[k].style.backgroundColor = '#9bdb10';
+                }
+                else if (tds[k].innerHTML < 10 && tds[k].innerHTML >= 8) {
+                    tds[k].style.backgroundColor = '#ff953d';
+                }
+                else if (tds[k].innerHTML < 8 && tds[k].innerHTML > 0 ) {
+                    tds[k].style.backgroundColor = '#ff1b1b';
+                }
+            }
+            return true;
+        }
+        /* Décolorier les cases du tableau */
+        function decolor5(){
+            var tds = document.getElementById('table5').getElementsByTagName('td');
+            for(var k = 0; k < tds.length; k ++) {
+                tds[k].style.backgroundColor='';
+            }
+            return true;
+        }
+        var action5 = true;
+        /* Une fonction a chaque clique */
+        function colorier5() {
+            if ( action5) {
+                color5();
+                action5 = false;
+            } else {
+                decolor5();
+                action5 = true;
+            }
+        }
+
 
     </script>
 

@@ -1,3 +1,7 @@
+-----------------------------------------
+------ETUDIANT PRET A ETRE INSCRIS-------
+-----------------------------------------
+
 ARTISIEN;Samuel;2015-2016;iut@info.fr;1rue de l'universite;62300;Lens;S1;https://dl.dropboxusercontent.com/u/84423341/JarJarHS-SWE.jpg
 BAUDELET;Geoffrey;2015-2016;iut@info.fr;1rue de l'universite;62300;Lens;S1;https://dl.dropboxusercontent.com/u/84423341/JarJarHS-SWE.jpg
 BENAISSA;Sofiane;2015-2016;iut@info.fr;1rue de l'universite;62300;Lens;S1;https://dl.dropboxusercontent.com/u/84423341/JarJarHS-SWE.jpg
@@ -55,7 +59,9 @@ MARTIN;Alexandre;2015-2016;iut@info.fr;1rue de l'universite;62300;Lens;S1;https:
 MASSELOT;Romain;2015-2016;iut@info.fr;1rue de l'universite;62300;Lens;S1;https://dl.dropboxusercontent.com/u/84423341/JarJarHS-SWE.jpg
 
 
-
+-----------------------------------------
+--------NOTE PRETE A ETRE AJOUTE---------
+-----------------------------------------
 
 
 ALGO1;2015-2016;UE11
@@ -65,7 +71,16 @@ BENAISSA;Sofiane;14
 BIGARD;Samuel;7
 BISSON;Julien;11
 BONTE;Nicolas;18
-BOULNOIS;Louis;1C;14
+BOULNOIS;Louis;14
+
+CDIN1;2015-2016;UE11
+ARTISIEN;Samuel;8
+BAUDELET;Geoffrey;11
+BENAISSA;Sofiane;13
+BIGARD;Samuel;12
+BISSON;Julien;18
+BONTE;Nicolas;14
+BOULNOIS;Louis;19
 
 BD1;2015-2016;UE11
 ARTISIEN;Samuel;10
@@ -74,14 +89,130 @@ BENAISSA;Sofiane;16
 BIGARD;Samuel;11
 BISSON;Julien;13
 BONTE;Nicolas;10
-BOULNOIS;Louis;1C;13
+BOULNOIS;Louis;13
 
-ANGLAIS1;2015-2016;UE11
+ANGLAIS1;2015-2016;UE12
 ARTISIEN;Samuel;8
 BAUDELET;Geoffrey;11
 BENAISSA;Sofiane;13
 BIGARD;Samuel;12
 BISSON;Julien;18
 BONTE;Nicolas;14
-BOULNOIS;Louis;1C;19
+BOULNOIS;Louis;19
+
+MATHS1;2015-2016;UE12
+ARTISIEN;Samuel;11
+BAUDELET;Geoffrey;13
+BENAISSA;Sofiane;7
+BIGARD;Samuel;8.5
+BISSON;Julien;9
+BONTE;Nicolas;10
+BOULNOIS;Louis;12
+
+GESTION1;2015-2016;UE12
+ARTISIEN;Samuel;13
+BAUDELET;Geoffrey;14
+BENAISSA;Sofiane;12
+BIGARD;Samuel;16
+BISSON;Julien;13.5
+BONTE;Nicolas;14.5
+BOULNOIS;Louis;14.5
+
+PPP1;2015-2016;UE13
+ARTISIEN;Samuel;12
+BAUDELET;Geoffrey;11
+BENAISSA;Sofiane;13
+BIGARD;Samuel;12
+BISSON;Julien;14
+BONTE;Nicolas;14
+BOULNOIS;Louis;15
+
+PROJET1;2015-2016;UE13
+ARTISIEN;Samuel;8
+BAUDELET;Geoffrey;7.5
+BENAISSA;Sofiane;10
+BIGARD;Samuel;11
+BISSON;Julien;13
+BONTE;Nicolas;14
+BOULNOIS;Louis;17
+
+-----------------
+
+RX2;2015-2016;UE21
+ARTISIEN;Samuel;12
+BAUDELET;Geoffrey;8
+BENAISSA;Sofiane;11
+BIGARD;Samuel;7
+BISSON;Julien;10
+BONTE;Nicolas;13
+BOULNOIS;Louis;7
+
+PWEB2;2015-2016;UE21
+ARTISIEN;Samuel;12
+BAUDELET;Geoffrey;11
+BENAISSA;Sofiane;10
+BIGARD;Samuel;13
+BISSON;Julien;9
+BONTE;Nicolas;6
+BOULNOIS;Louis;8.5
+
+ANGLAIS2;2015-2016;UE22
+ARTISIEN;Samuel;12
+BAUDELET;Geoffrey;8
+BENAISSA;Sofiane;11
+BIGARD;Samuel;7
+BISSON;Julien;10
+BONTE;Nicolas;13
+BOULNOIS;Louis;7
+
+MATHS2;2015-2016;UE22
+ARTISIEN;Samuel;16
+BAUDELET;Geoffrey;11
+BENAISSA;Sofiane;9.5
+BIGARD;Samuel;12
+BISSON;Julien;10.5
+BONTE;Nicolas;4
+BOULNOIS;Louis;3
+
+PROJET2;2015-2016;UE23
+ARTISIEN;Samuel;11
+BAUDELET;Geoffrey;10
+BENAISSA;Sofiane;9
+BIGARD;Samuel;11
+BISSON;Julien;10
+BONTE;Nicolas;9
+BOULNOIS;Louis;11
+
+SOUTENANCE2;2015-2016;UE23
+ARTISIEN;Samuel;13
+BAUDELET;Geoffrey;12
+BENAISSA;Sofiane;10.5
+BIGARD;Samuel;10
+BISSON;Julien;10
+BONTE;Nicolas;9
+BOULNOIS;Louis;11
+
+-----------------------------------------
+-ETUDIANT PRET A PASSER SEMESTRE SUIVANT-
+-----------------------------------------
+
+ARTISIEN;Samuel;S2;Passage en S2
+BAUDELET;Geoffrey;S2;Passage en S2
+BENAISSA;Sofiane;S2;Passage en S2
+BIGARD;Samuel;S2;Passage en S2
+BISSON;Julien;S2;Passage en S2
+BONTE;Nicolas;S2;Passage en S2
+BOULNOIS;Louis;S2;Passage en S2
+
+ARTISIEN;Samuel;S3;Passage en S3
+BAUDELET;Geoffrey;S3;Passage en S3
+BENAISSA;Sofiane;S3;Passage en S3
+
+-----------------------------------------
+------ETUDIANT REDOUBLANT UNE ANNEE------
+-----------------------------------------
+
+BIGARD;Samuel;2016-2017;S1;UE12;UE13;UE22
+BOULNOIS;Louis;2016-2017;S1;UE12;UE13;UE23
+
 

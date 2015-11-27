@@ -123,8 +123,8 @@ avis pour chaque semestre ou il est isncrit
              */
             info +="<div class=\"panel panel-primary filterable\"><div class=\"panel-heading\">";
             info += "<h3 class=\"panel-title\">"+semCourant+"</h3><p></p>";
-            info +="<a class=\"btn btn-info\" onClick=\"colorier();\">Color</a></div>";
-            info +="<table class=\"table\" id=\"table\"><tbody>";
+            info +="<a class=\"btn btn-info\" onClick=\"colorier"+i+"();\">Color</a></div>";
+            info +="<table class=\"table\" id=\"table"+i+"\"><tbody>";
             info+="<tr class=\"rowToClick2\"><td colspan=\"2\"><b><i>General</i></b></td></tr>"
             info +="<tr><td>Moyenne Generale</td><td>"+moySem+"</td></tr>";
             if(avis[i]) {

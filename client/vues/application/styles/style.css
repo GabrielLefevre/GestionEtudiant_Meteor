@@ -48,7 +48,6 @@ textarea {
     padding: 0;
     height: auto;
 }
-
 .filterable .filters input[disabled]::-webkit-input-placeholder {
     color: #333;
 }
@@ -57,6 +56,37 @@ textarea {
 }
 .filterable .filters input[disabled]:-ms-input-placeholder {
     color: #333;
+}
+.row{
+    margin-top:40px;
+    padding: 0 10px;
+}
+.clickable{
+    cursor: pointer;
+}
+
+.panel-heading div {
+    margin-top: -18px;
+    font-size: 15px;
+}
+.panel-heading div span{
+    margin-left:5px;
+}
+.panel-body{
+    display: none;
+}
+
+a {
+	padding: 4px 10px;
+	font-weight: bold;
+	text-decoration: none;
+	color: #000;
+}
+
+/* Styles pour les liens survolés ou sélectionnés au clavier*/
+a:hover, a:focus {
+    text-decoration: underline;
+    color: #666;
 }
 
 /* tables */

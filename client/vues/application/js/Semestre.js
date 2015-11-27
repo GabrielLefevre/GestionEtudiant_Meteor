@@ -118,3 +118,70 @@ Template.semestre.events({
   }// supprimer
 
 });
+
+/*
+ ----------------------------------------------------------
+ -------------------Template Index-------------------------
+ ----------------------------------------------------------
+ */
+Template.index.events({
+    'click .delete': function(e){
+        e.preventDefault();
+        if (confirm("supprimer le contenu de la base de donnée ?")) {
+            var listeEtu = Etudiant.find({});
+            var tabEtu = [];
+            var listeMat = Matiere.find({});
+            var tabMat = [];
+            var listeMoy = Moyenne.find({});
+            var tabMoy = [];
+            var listeNot = Note.find({});
+            var tabNot = [];
+            var listePro = Promotion.find({});
+            var tabPro = [];
+            var listeSem = Semestre.find({});
+            var tabSem = [];
+            var listeUE = UE.find({});
+            var tabUE = [];
+            Etudiant.find({}).forEach(function (listeEtu) {
+                    tabEtu.push(listeEtu._id);
+            });
+            Matiere.find({}).forEach(function (listeMat) {
+                tabMat.push(listeMat._id);
+            });
+            Moyenne.find({}).forEach(function (listeMoy) {
+                tabMoy.push(listeMoy._id);
+            });
+            Note.find({}).forEach(function (listeNot) {
+                tabNot.push(listeNot._id);
+            });
+            Promotion.find({}).forEach(function (listePro) {
+                tabPro.push(listePro._id);
+            });
+            Semestre.find({}).forEach(function (listeSem) {
+                tabSem.push(listeSem._id);
+            });
+            UE.find({}).forEach(function (listeUE) {
+                tabUE.push(listeUE._id);
+            });
+            var tabT = tabEtu.length + tabMat.length + tabMoy.length + tabNot.length + tabPro.length + tabSem.length + tabUE.length;
+            for ( var i = 0; i<tabT;i++) {
+                Etudiant.remove({_id:tabEtu[i]});
+                Matiere.remove({_id:tabMat[i]});
+                Moyenne.remove({_id:tabMoy[i]});
+                Note.remove({_id:tabNot[i]});
+                Promotion.remove({_id:tabPro[i]});
+                Semestre.remove({_id:tabSem[i]});
+                UE.remove({_id:tabUE[i]});
+            }
+
+
+
+
+
+
+        }
+
+    }
+});
+
+
